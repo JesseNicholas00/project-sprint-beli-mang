@@ -3,8 +3,8 @@ package request
 import (
 	"net/http"
 
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
-	"github.com/KerakTelor86/GoBoiler/utils/validation"
+	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
+	"github.com/JesseNicholas00/BeliMang/utils/validation"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )

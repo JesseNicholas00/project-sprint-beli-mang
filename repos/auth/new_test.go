@@ -3,9 +3,9 @@ package auth_test
 import (
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/repos/auth"
-	"github.com/KerakTelor86/GoBoiler/utils/ctxrizz"
-	"github.com/KerakTelor86/GoBoiler/utils/unittesting"
+	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 )
 
 func NewWithTestDatabase(t *testing.T) auth.AuthRepository {

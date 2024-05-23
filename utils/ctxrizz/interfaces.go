@@ -3,7 +3,7 @@ package ctxrizz
 import (
 	"context"
 
-	"github.com/KerakTelor86/GoBoiler/utils/transaction"
+	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 )
 
 type DbContextRizzer interface {

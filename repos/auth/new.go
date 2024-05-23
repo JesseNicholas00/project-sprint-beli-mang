@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/KerakTelor86/GoBoiler/utils/ctxrizz"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 )
 
 type authRepostioryImpl struct {

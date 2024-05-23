@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/KerakTelor86/GoBoiler/repos/auth"
+import "github.com/JesseNicholas00/BeliMang/repos/auth"
 
 type authServiceImpl struct {
 	repo       auth.AuthRepository

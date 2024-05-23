@@ -3,7 +3,7 @@ package helper_test
 import (
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/utils/helper"
+	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
