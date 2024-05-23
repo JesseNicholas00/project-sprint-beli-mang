@@ -2,6 +2,6 @@ package auth
 
 import "errors"
 
-var ErrPhoneNumberNotFound = errors.New(
-	"authRepository: no such phone number found",
+var ErrUsernameNotFound = errors.New(
+	"authRepository: no such username found",
 )

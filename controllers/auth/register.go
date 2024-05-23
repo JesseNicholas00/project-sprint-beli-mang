@@ -10,20 +10,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (ctrl *authController) registerStaff(c echo.Context) error {
-	var req auth.RegisterStaffReq
+func (ctrl *authController) registerUser(c echo.Context) error {
+	var req auth.RegisterUserReq
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
 
-	var res auth.RegisterStaffRes
-	if err := ctrl.service.RegisterStaff(
+	var res auth.RegisterUserRes
+	if err := ctrl.service.RegisterUser(
 		c.Request().Context(),
 		req,
 		&res,
 	); err != nil {
 		switch {
-		case errors.Is(err, auth.ErrPhoneNumberAlreadyRegistered):
+		case errors.Is(err, auth.ErrUsernameAlreadyRegistered):
 			return echo.NewHTTPError(http.StatusConflict, echo.Map{
 				"message": "user already exists",
 			})
@@ -33,8 +33,5 @@ func (ctrl *authController) registerStaff(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusCreated, echo.Map{
-		"message": "User registered successfully",
-		"data":    res,
-	})
+	return c.JSON(http.StatusCreated, res)
 }

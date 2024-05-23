@@ -11,18 +11,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestLoginStaff(t *testing.T) {
-	Convey("When logging in as staff", t, func() {
+func TestLoginUser(t *testing.T) {
+	Convey("When logging in as user", t, func() {
 		mockCtrl, service, mockedRepo := NewWithMockedRepo(t)
 		defer mockCtrl.Finish()
 
-		req := LoginStaffReq{
-			PhoneNumber: "+6281234567890",
-			Password:    "password",
+		req := LoginUserReq{
+			Username: "+6281234567890",
+			Password: "password",
 		}
-		reqWrong := LoginStaffReq{
-			PhoneNumber: req.PhoneNumber,
-			Password:    "epic bruh moment",
+		reqWrong := LoginUserReq{
+			Username: req.Username,
+			Password: "epic bruh moment",
 		}
 
 		cryptedPw, err := bcrypt.GenerateFromPassword(
@@ -31,23 +31,21 @@ func TestLoginStaff(t *testing.T) {
 		)
 		So(err, ShouldBeNil)
 
-		repoRes := auth.Staff{
-			Id:        "bread",
-			Name:      "john bread",
-			Phone:     req.PhoneNumber,
-			Password:  string(cryptedPw),
-			CreatedAt: "now",
-			UpdatedAt: "now",
+		repoRes := auth.User{
+			Id:       "bread",
+			Username: "jessenicholas",
+			Password: string(cryptedPw),
+			IsAdmin:  true,
 		}
 
-		Convey("If the phone number is not registered", func() {
+		Convey("If the username is not registered", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
-				Return(auth.Staff{}, auth.ErrPhoneNumberNotFound).
+				FindUserByUsername(gomock.Any(), req.Username).
+				Return(auth.User{}, auth.ErrUsernameNotFound).
 				Times(1)
 
-			res := LoginStaffRes{}
-			err := service.LoginStaff(context.TODO(), req, &res)
+			res := LoginUserRes{}
+			err := service.LoginUser(context.TODO(), req, &res)
 			Convey("Should return ErrUserNotFound", func() {
 				So(
 					errors.Is(err, ErrUserNotFound),
@@ -56,17 +54,17 @@ func TestLoginStaff(t *testing.T) {
 			})
 		})
 
-		Convey("If the phone number is registered", func() {
+		Convey("If the username is registered", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
+				FindUserByUsername(gomock.Any(), req.Username).
 				Return(repoRes, nil).
 				Times(1)
 
 			Convey(
 				"And the password is incorrect",
 				func() {
-					res := LoginStaffRes{}
-					err := service.LoginStaff(context.TODO(), reqWrong, &res)
+					res := LoginUserRes{}
+					err := service.LoginUser(context.TODO(), reqWrong, &res)
 
 					Convey("Should return ErrInvalidCredentials", func() {
 						So(errors.Is(err, ErrInvalidCredentials), ShouldBeTrue)
@@ -77,16 +75,14 @@ func TestLoginStaff(t *testing.T) {
 			Convey(
 				"And the password is correct",
 				func() {
-					res := LoginStaffRes{}
-					err := service.LoginStaff(context.TODO(), req, &res)
+					res := LoginUserRes{}
+					err := service.LoginUser(context.TODO(), req, &res)
 
 					Convey(
 						"Should return nil and write the correct result to res",
 						func() {
 							So(err, ShouldBeNil)
-							So(res.Name, ShouldEqual, repoRes.Name)
-							So(res.PhoneNumber, ShouldEqual, repoRes.Phone)
-							So(res.UserId, ShouldEqual, repoRes.Id)
+							So(res.AccessToken, ShouldNotBeNil)
 						},
 					)
 				},

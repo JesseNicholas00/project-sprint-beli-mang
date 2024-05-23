@@ -49,30 +49,30 @@ func (mr *MockAuthServiceMockRecorder) GetSessionFromToken(arg0, arg1, arg2 inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSessionFromToken", reflect.TypeOf((*MockAuthService)(nil).GetSessionFromToken), arg0, arg1, arg2)
 }
 
-// LoginStaff mocks base method.
-func (m *MockAuthService) LoginStaff(arg0 context.Context, arg1 auth.LoginStaffReq, arg2 *auth.LoginStaffRes) error {
+// LoginUser mocks base method.
+func (m *MockAuthService) LoginUser(arg0 context.Context, arg1 auth.LoginUserReq, arg2 *auth.LoginUserRes) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LoginStaff", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "LoginUser", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// LoginStaff indicates an expected call of LoginStaff.
-func (mr *MockAuthServiceMockRecorder) LoginStaff(arg0, arg1, arg2 interface{}) *gomock.Call {
+// LoginUser indicates an expected call of LoginUser.
+func (mr *MockAuthServiceMockRecorder) LoginUser(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LoginStaff", reflect.TypeOf((*MockAuthService)(nil).LoginStaff), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LoginUser", reflect.TypeOf((*MockAuthService)(nil).LoginUser), arg0, arg1, arg2)
 }
 
-// RegisterStaff mocks base method.
-func (m *MockAuthService) RegisterStaff(arg0 context.Context, arg1 auth.RegisterStaffReq, arg2 *auth.RegisterStaffRes) error {
+// RegisterUser mocks base method.
+func (m *MockAuthService) RegisterUser(arg0 context.Context, arg1 auth.RegisterUserReq, arg2 *auth.RegisterUserRes) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RegisterStaff", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "RegisterUser", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// RegisterStaff indicates an expected call of RegisterStaff.
-func (mr *MockAuthServiceMockRecorder) RegisterStaff(arg0, arg1, arg2 interface{}) *gomock.Call {
+// RegisterUser indicates an expected call of RegisterUser.
+func (mr *MockAuthServiceMockRecorder) RegisterUser(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterStaff", reflect.TypeOf((*MockAuthService)(nil).RegisterStaff), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockAuthService)(nil).RegisterUser), arg0, arg1, arg2)
 }

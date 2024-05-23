@@ -2,29 +2,25 @@ package auth
 
 import "github.com/golang-jwt/jwt/v4"
 
-type RegisterStaffReq struct {
-	PhoneNumber string `json:"phoneNumber" validate:"required,phoneNumber"`
-	Name        string `json:"name"        validate:"required,min=5,max=50"`
-	Password    string `json:"password"    validate:"required,min=5,max=15"`
+type RegisterUserReq struct {
+	Username string `json:"username" validate:"required,min=5,max=30"`
+	Password string `json:"password" validate:"required,min=5,max=30"`
+	Email    string `json:"email"    validate:"required,email"`
+	Role     string `                validate:"required,oneof=admin user" param:"role"`
 }
 
-type RegisterStaffRes struct {
-	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
-	Name        string `json:"name"`
-	AccessToken string `json:"accessToken"`
+type RegisterUserRes struct {
+	AccessToken string `json:"token"`
 }
 
-type LoginStaffReq struct {
-	PhoneNumber string `json:"phoneNumber" validate:"required,phoneNumber"`
-	Password    string `json:"password"    validate:"required,min=5,max=15"`
+type LoginUserReq struct {
+	Username string `json:"username" validate:"required,min=5,max=30"`
+	Password string `json:"password" validate:"required,min=5,max=30"`
+	Role     string `                validate:"required,oneof=admin user" param:"role"`
 }
 
-type LoginStaffRes struct {
-	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
-	Name        string `json:"name"`
-	AccessToken string `json:"accessToken"`
+type LoginUserRes struct {
+	AccessToken string `json:"token"`
 }
 
 type GetSessionFromTokenReq struct {
@@ -32,15 +28,13 @@ type GetSessionFromTokenReq struct {
 }
 
 type GetSessionFromTokenRes struct {
-	UserId      string
-	PhoneNumber string
-	Name        string
+	UserId  string
+	IsAdmin bool
 }
 
 type jwtSubClaims struct {
-	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
-	Name        string `json:"name"`
+	UserId  string `json:"userId"`
+	IsAdmin bool   `json:"is_admin"`
 }
 
 type jwtClaims struct {
