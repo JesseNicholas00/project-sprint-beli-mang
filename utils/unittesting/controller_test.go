@@ -4,7 +4,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/utils/unittesting"
+	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 	"github.com/labstack/echo/v4"
 	. "github.com/smartystreets/goconvey/convey"
 )

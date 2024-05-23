@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/KerakTelor86/GoBoiler/middlewares"
-	"github.com/KerakTelor86/GoBoiler/utils/logging"
-	"github.com/KerakTelor86/GoBoiler/utils/migration"
-	"github.com/KerakTelor86/GoBoiler/utils/validation"
+	"github.com/JesseNicholas00/BeliMang/middlewares"
+	"github.com/JesseNicholas00/BeliMang/utils/logging"
+	"github.com/JesseNicholas00/BeliMang/utils/migration"
+	"github.com/JesseNicholas00/BeliMang/utils/validation"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jmoiron/sqlx"

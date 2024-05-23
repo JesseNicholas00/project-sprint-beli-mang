@@ -3,7 +3,7 @@ package intlen
 import (
 	"strconv"
 
-	"github.com/KerakTelor86/GoBoiler/utils/helper"
+	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"github.com/go-playground/validator/v10"
 )
 

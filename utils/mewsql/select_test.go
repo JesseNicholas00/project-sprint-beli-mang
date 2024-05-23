@@ -3,7 +3,7 @@ package mewsql_test
 import (
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/utils/mewsql"
+	"github.com/JesseNicholas00/BeliMang/utils/mewsql"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

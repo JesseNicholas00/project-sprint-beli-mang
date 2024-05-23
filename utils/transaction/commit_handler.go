@@ -3,7 +3,7 @@ package transaction
 import (
 	"database/sql"
 
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
+	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/pkg/errors"
 )
 

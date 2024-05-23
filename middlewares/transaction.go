@@ -1,9 +1,9 @@
 package middlewares
 
 import (
-	"github.com/KerakTelor86/GoBoiler/utils/ctxrizz"
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
-	"github.com/KerakTelor86/GoBoiler/utils/transaction"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
+	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 	"github.com/labstack/echo/v4"
 )
 

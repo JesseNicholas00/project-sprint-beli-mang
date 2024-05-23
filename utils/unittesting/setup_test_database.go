@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/KerakTelor86/GoBoiler/utils/migration"
-	"github.com/KerakTelor86/GoBoiler/utils/statementutil"
+	"github.com/JesseNicholas00/BeliMang/utils/migration"
+	"github.com/JesseNicholas00/BeliMang/utils/statementutil"
 	"github.com/jmoiron/sqlx"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"

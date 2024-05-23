@@ -3,13 +3,13 @@ package auth
 import (
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/controllers/auth/mocks"
+	"github.com/JesseNicholas00/BeliMang/controllers/auth/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/labstack/echo/v4"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-//go:generate mockgen -destination mocks/mock_service.go -package mocks github.com/KerakTelor86/GoBoiler/services/auth AuthService
+//go:generate mockgen -destination mocks/mock_service.go -package mocks github.com/JesseNicholas00/BeliMang/services/auth AuthService
 
 func NewControllerWithMockedService(
 	t *testing.T,

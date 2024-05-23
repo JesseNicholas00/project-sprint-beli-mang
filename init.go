@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/KerakTelor86/GoBoiler/controllers"
-	authCtrl "github.com/KerakTelor86/GoBoiler/controllers/auth"
-	authRepo "github.com/KerakTelor86/GoBoiler/repos/auth"
-	authSvc "github.com/KerakTelor86/GoBoiler/services/auth"
-	"github.com/KerakTelor86/GoBoiler/utils/ctxrizz"
-	"github.com/KerakTelor86/GoBoiler/utils/logging"
+	"github.com/JesseNicholas00/BeliMang/controllers"
+	authCtrl "github.com/JesseNicholas00/BeliMang/controllers/auth"
+	authRepo "github.com/JesseNicholas00/BeliMang/repos/auth"
+	authSvc "github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+	"github.com/JesseNicholas00/BeliMang/utils/logging"
 	"github.com/jmoiron/sqlx"
 )
 

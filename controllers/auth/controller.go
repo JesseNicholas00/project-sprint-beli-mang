@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"github.com/KerakTelor86/GoBoiler/controllers"
-	"github.com/KerakTelor86/GoBoiler/services/auth"
+	"github.com/JesseNicholas00/BeliMang/controllers"
+	"github.com/JesseNicholas00/BeliMang/services/auth"
 	"github.com/labstack/echo/v4"
 )
 

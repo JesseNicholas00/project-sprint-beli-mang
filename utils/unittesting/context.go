@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/KerakTelor86/GoBoiler/utils/validation"
+	"github.com/JesseNicholas00/BeliMang/utils/validation"
 	"github.com/labstack/echo/v4"
 )
 

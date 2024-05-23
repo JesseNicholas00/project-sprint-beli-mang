@@ -3,11 +3,11 @@ package auth
 import (
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/services/auth/mocks"
+	"github.com/JesseNicholas00/BeliMang/services/auth/mocks"
 	gomock "github.com/golang/mock/gomock"
 )
 
-//go:generate mockgen -destination mocks/mock_repo.go -package mocks github.com/KerakTelor86/GoBoiler/repos/auth AuthRepository
+//go:generate mockgen -destination mocks/mock_repo.go -package mocks github.com/JesseNicholas00/BeliMang/repos/auth AuthRepository
 
 func NewWithMockedRepo(
 	t *testing.T,

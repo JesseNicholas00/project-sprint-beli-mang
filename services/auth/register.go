@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/KerakTelor86/GoBoiler/repos/auth"
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
+	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )

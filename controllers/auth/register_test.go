@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/services/auth"
-	"github.com/KerakTelor86/GoBoiler/utils/helper"
-	"github.com/KerakTelor86/GoBoiler/utils/unittesting"
+	"github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/utils/helper"
+	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )

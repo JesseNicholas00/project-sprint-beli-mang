@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/repos/auth"
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 	"golang.org/x/crypto/bcrypt"
