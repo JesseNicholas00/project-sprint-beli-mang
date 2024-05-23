@@ -7,7 +7,6 @@ import (
 	"github.com/JesseNicholas00/BeliMang/utils/validation/image"
 	"github.com/JesseNicholas00/BeliMang/utils/validation/intlen"
 	"github.com/JesseNicholas00/BeliMang/utils/validation/iso8601"
-	"github.com/JesseNicholas00/BeliMang/utils/validation/phone"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
@@ -21,10 +20,6 @@ func (e *EchoValidator) Validate(i interface{}) error {
 }
 
 var customFields = []customField{
-	{
-		Tag:       "phoneNum",
-		Validator: phone.ValidatePhoneNumber,
-	},
 	{
 		Tag:       "imageExt",
 		Validator: image.ValidateImageExtension,

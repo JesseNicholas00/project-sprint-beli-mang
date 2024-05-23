@@ -2,8 +2,8 @@ package auth
 
 import "errors"
 
-var ErrPhoneNumberAlreadyRegistered = errors.New(
-	"authService: phone number already registered",
+var ErrUsernameAlreadyRegistered = errors.New(
+	"authService: username already registered",
 )
 var ErrUserNotFound = errors.New(
 	"authService: no such user found",

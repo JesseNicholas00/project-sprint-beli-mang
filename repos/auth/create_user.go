@@ -7,21 +7,33 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func (repo *authRepostioryImpl) FindStaffByPhone(
+func (repo *authRepositoryImpl) CreateUser(
 	ctx context.Context,
-	phone string,
-) (res Staff, err error) {
+	user User,
+) (res User, err error) {
 	if err = ctx.Err(); err != nil {
 		return
 	}
 
 	query := `
-		SELECT
-			*
-		FROM
-			staffs
-		WHERE
-			staff_phone_number = :phone_number
+		INSERT INTO users(
+			user_id,
+			username,
+			email,
+			password,
+			is_admin	
+		) VALUES (
+			:user_id,
+			:username,
+			:email,
+			:password,
+			:is_admin
+		) RETURNING
+			user_id,
+			username,
+			email,
+			password,
+			is_admin
 	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
@@ -29,15 +41,7 @@ func (repo *authRepostioryImpl) FindStaffByPhone(
 		return
 	}
 
-	rows, err := sqlx.NamedQueryContext(
-		ctx,
-		sess.Ext,
-		query,
-		map[string]interface{}{
-			"phone_number": phone,
-		},
-	)
-
+	rows, err := sqlx.NamedQueryContext(ctx, sess.Ext, query, user)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
@@ -50,11 +54,6 @@ func (repo *authRepostioryImpl) FindStaffByPhone(
 			err = errorutil.AddCurrentContext(err)
 			return
 		}
-	}
-
-	if res.Id == "" {
-		err = ErrPhoneNumberNotFound
-		return
 	}
 
 	return

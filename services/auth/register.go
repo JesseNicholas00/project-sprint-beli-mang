@@ -10,23 +10,23 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (svc *authServiceImpl) RegisterStaff(
+func (svc *authServiceImpl) RegisterUser(
 	ctx context.Context,
-	req RegisterStaffReq,
-	res *RegisterStaffRes,
+	req RegisterUserReq,
+	res *RegisterUserRes,
 ) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
 
-	_, err := svc.repo.FindStaffByPhone(ctx, req.PhoneNumber)
+	_, err := svc.repo.FindUserByUsername(ctx, req.Username)
 
 	if err == nil {
-		// duplicate phone number
-		return ErrPhoneNumberAlreadyRegistered
+		// duplicate username
+		return ErrUsernameAlreadyRegistered
 	}
 
-	if !errors.Is(err, auth.ErrPhoneNumberNotFound) {
+	if !errors.Is(err, auth.ErrUsernameNotFound) {
 		// unexpected kind of error
 		return errorutil.AddCurrentContext(err)
 	}
@@ -39,11 +39,12 @@ func (svc *authServiceImpl) RegisterStaff(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	repoRes, err := svc.repo.CreateStaff(ctx, auth.Staff{
+	repoRes, err := svc.repo.CreateUser(ctx, auth.User{
 		Id:       uuid.New().String(),
-		Name:     req.Name,
-		Phone:    req.PhoneNumber,
+		Username: req.Username,
+		Email:    req.Email,
 		Password: string(cryptedPw),
+		IsAdmin:  req.Role == "admin",
 	})
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
@@ -54,10 +55,7 @@ func (svc *authServiceImpl) RegisterStaff(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	*res = RegisterStaffRes{
-		UserId:      repoRes.Id,
-		PhoneNumber: repoRes.Phone,
-		Name:        repoRes.Name,
+	*res = RegisterUserRes{
 		AccessToken: token,
 	}
 

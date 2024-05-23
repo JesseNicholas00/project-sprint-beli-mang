@@ -1,10 +1,9 @@
 package auth
 
-type Staff struct {
-	Id        string `db:"staff_id"`
-	Name      string `db:"staff_name"`
-	Phone     string `db:"staff_phone_number"`
-	Password  string `db:"staff_password"`
-	CreatedAt string `db:"created_at"`
-	UpdatedAt string `db:"updated_at"`
+type User struct {
+	Id       string `db:"user_id"`
+	Username string `db:"username"`
+	Password string `db:"password"`
+	Email    string `db:"email"`
+	IsAdmin  bool   `db:"is_admin"`
 }

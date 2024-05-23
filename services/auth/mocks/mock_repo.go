@@ -35,32 +35,32 @@ func (m *MockAuthRepository) EXPECT() *MockAuthRepositoryMockRecorder {
 	return m.recorder
 }
 
-// CreateStaff mocks base method.
-func (m *MockAuthRepository) CreateStaff(arg0 context.Context, arg1 auth.Staff) (auth.Staff, error) {
+// CreateUser mocks base method.
+func (m *MockAuthRepository) CreateUser(arg0 context.Context, arg1 auth.User) (auth.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateStaff", arg0, arg1)
-	ret0, _ := ret[0].(auth.Staff)
+	ret := m.ctrl.Call(m, "CreateUser", arg0, arg1)
+	ret0, _ := ret[0].(auth.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// CreateStaff indicates an expected call of CreateStaff.
-func (mr *MockAuthRepositoryMockRecorder) CreateStaff(arg0, arg1 interface{}) *gomock.Call {
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockAuthRepositoryMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStaff", reflect.TypeOf((*MockAuthRepository)(nil).CreateStaff), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockAuthRepository)(nil).CreateUser), arg0, arg1)
 }
 
-// FindStaffByPhone mocks base method.
-func (m *MockAuthRepository) FindStaffByPhone(arg0 context.Context, arg1 string) (auth.Staff, error) {
+// FindUserByUsername mocks base method.
+func (m *MockAuthRepository) FindUserByUsername(arg0 context.Context, arg1 string) (auth.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindStaffByPhone", arg0, arg1)
-	ret0, _ := ret[0].(auth.Staff)
+	ret := m.ctrl.Call(m, "FindUserByUsername", arg0, arg1)
+	ret0, _ := ret[0].(auth.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// FindStaffByPhone indicates an expected call of FindStaffByPhone.
-func (mr *MockAuthRepositoryMockRecorder) FindStaffByPhone(arg0, arg1 interface{}) *gomock.Call {
+// FindUserByUsername indicates an expected call of FindUserByUsername.
+func (mr *MockAuthRepositoryMockRecorder) FindUserByUsername(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindStaffByPhone", reflect.TypeOf((*MockAuthRepository)(nil).FindStaffByPhone), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByUsername", reflect.TypeOf((*MockAuthRepository)(nil).FindUserByUsername), arg0, arg1)
 }

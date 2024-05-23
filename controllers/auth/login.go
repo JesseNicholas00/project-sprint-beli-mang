@@ -10,21 +10,21 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (ctrl *authController) loginStaff(c echo.Context) error {
-	var req auth.LoginStaffReq
+func (ctrl *authController) loginUser(c echo.Context) error {
+	var req auth.LoginUserReq
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
 
-	var res auth.LoginStaffRes
-	if err := ctrl.service.LoginStaff(
+	var res auth.LoginUserRes
+	if err := ctrl.service.LoginUser(
 		c.Request().Context(),
 		req,
 		&res,
 	); err != nil {
 		switch {
 		case errors.Is(err, auth.ErrUserNotFound):
-			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
 				"message": "user not found",
 			})
 
@@ -38,8 +38,5 @@ func (ctrl *authController) loginStaff(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "User logged in successfully",
-		"data":    res,
-	})
+	return c.JSON(http.StatusOK, res)
 }

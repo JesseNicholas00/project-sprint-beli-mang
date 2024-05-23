@@ -7,32 +7,21 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func (repo *authRepostioryImpl) CreateStaff(
+func (repo *authRepositoryImpl) FindUserByUsername(
 	ctx context.Context,
-	staff Staff,
-) (res Staff, err error) {
+	username string,
+) (res User, err error) {
 	if err = ctx.Err(); err != nil {
 		return
 	}
 
 	query := `
-		INSERT INTO staffs(
-			staff_id,
-			staff_name,
-			staff_phone_number,
-			staff_password
-		) VALUES (
-			:staff_id,
-			:staff_name,
-			:staff_phone_number,
-			:staff_password
-		) RETURNING
-			staff_id,
-			staff_name,
-			staff_phone_number,
-			staff_password,
-			created_at,
-			updated_at
+		SELECT
+			*
+		FROM
+			users
+		WHERE
+			username = :username
 	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
@@ -40,7 +29,15 @@ func (repo *authRepostioryImpl) CreateStaff(
 		return
 	}
 
-	rows, err := sqlx.NamedQueryContext(ctx, sess.Ext, query, staff)
+	rows, err := sqlx.NamedQueryContext(
+		ctx,
+		sess.Ext,
+		query,
+		map[string]interface{}{
+			"username": username,
+		},
+	)
+
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
@@ -53,6 +50,11 @@ func (repo *authRepostioryImpl) CreateStaff(
 			err = errorutil.AddCurrentContext(err)
 			return
 		}
+	}
+
+	if res.Id == "" {
+		err = ErrUsernameNotFound
+		return
 	}
 
 	return

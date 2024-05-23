@@ -10,71 +10,69 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestRegisterStaff(t *testing.T) {
-	Convey("When registering staff", t, func() {
+func TestRegisterUser(t *testing.T) {
+	Convey("When registering user", t, func() {
 		mockCtrl, service, mockedRepo := NewWithMockedRepo(t)
 		defer mockCtrl.Finish()
 
-		req := RegisterStaffReq{
-			PhoneNumber: "+6281234567890",
-			Name:        "firstname lastname",
-			Password:    "password",
+		req := RegisterUserReq{
+			Username: "+6281234567890",
+			Password: "password",
+			Email:    "jn@gmail.com",
 		}
 
-		repoReq := auth.Staff{
+		repoReq := auth.User{
 			Id:       "bread",
-			Name:     req.Name,
-			Phone:    req.PhoneNumber,
-			Password: req.Password,
+			Username: "+6281234567890",
+			Password: "password",
+			Email:    "jn@gmail.com",
+			IsAdmin:  true,
 		}
-		repoRes := auth.Staff{
-			Id:        repoReq.Id,
-			Name:      repoReq.Name,
-			Phone:     repoReq.Phone,
-			Password:  repoReq.Password,
-			CreatedAt: "now",
-			UpdatedAt: "now",
+		repoRes := auth.User{
+			Id:       repoReq.Id,
+			Username: repoReq.Username,
+			Password: repoReq.Password,
+			Email:    "jn@gmail.com",
+			IsAdmin:  true,
 		}
 
-		Convey("If the phone number is already registered", func() {
+		Convey("If the username is already registered", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
+				FindUserByUsername(gomock.Any(), req.Username).
 				Return(repoRes, nil).
 				Times(1)
 
-			res := RegisterStaffRes{}
-			err := service.RegisterStaff(context.TODO(), req, &res)
+			res := RegisterUserRes{}
+			err := service.RegisterUser(context.TODO(), req, &res)
 			Convey("Should return ErrPhoneNumberAlreadyRegistered", func() {
 				So(
-					errors.Is(err, ErrPhoneNumberAlreadyRegistered),
+					errors.Is(err, ErrUsernameAlreadyRegistered),
 					ShouldBeTrue,
 				)
 			})
 		})
 
-		Convey("If the phone number is unique", func() {
+		Convey("If the username is unique", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
-				Return(auth.Staff{}, auth.ErrPhoneNumberNotFound).
+				FindUserByUsername(gomock.Any(), req.Username).
+				Return(auth.User{}, auth.ErrUsernameNotFound).
 				Times(1)
 			mockedRepo.EXPECT().
-				CreateStaff(gomock.Any(), gomock.Any()).
-				Do(func(_ context.Context, reqFromSvc auth.Staff) {
-					So(reqFromSvc.Name, ShouldEqual, req.Name)
-					So(reqFromSvc.Phone, ShouldEqual, req.PhoneNumber)
+				CreateUser(gomock.Any(), gomock.Any()).
+				Do(func(_ context.Context, reqFromSvc auth.User) {
+					So(reqFromSvc.Username, ShouldEqual, req.Username)
+					So(reqFromSvc.Email, ShouldEqual, req.Email)
 				}).
 				Return(repoRes, nil).
 				Times(1)
 
-			res := RegisterStaffRes{}
-			err := service.RegisterStaff(context.TODO(), req, &res)
+			res := RegisterUserRes{}
+			err := service.RegisterUser(context.TODO(), req, &res)
 			Convey(
 				"Should return nil and write the correct result to res",
 				func() {
 					So(err, ShouldBeNil)
-					So(res.Name, ShouldEqual, req.Name)
-					So(res.PhoneNumber, ShouldEqual, req.PhoneNumber)
-					So(res.UserId, ShouldEqual, repoRes.Id)
+					So(res.AccessToken, ShouldNotBeNil)
 				},
 			)
 		})
