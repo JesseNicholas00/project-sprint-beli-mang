@@ -5,6 +5,9 @@ import "errors"
 var ErrUsernameAlreadyRegistered = errors.New(
 	"authService: username already registered",
 )
+var ErrEmailAlreadyRegistered = errors.New(
+	"authService: email already registered",
+)
 var ErrUserNotFound = errors.New(
 	"authService: no such user found",
 )

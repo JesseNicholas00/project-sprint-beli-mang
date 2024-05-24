@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/JesseNicholas00/BeliMang/utils/statementutil"
 
@@ -8,6 +9,10 @@ import (
 	"github.com/JesseNicholas00/BeliMang/utils/logging"
 	"github.com/JesseNicholas00/BeliMang/utils/migration"
 	"github.com/JesseNicholas00/BeliMang/utils/validation"
+	awsConfig "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jmoiron/sqlx"
@@ -64,7 +69,23 @@ func main() {
 	statementutil.SetUp(db)
 	defer statementutil.CleanUp()
 
-	controllers := initControllers(cfg, db)
+	creds := credentials.NewStaticCredentialsProvider(
+		cfg.awsAccessKeyID,
+		cfg.awsSecretAccessKey,
+		"",
+	)
+	awsCfg, err := awsConfig.LoadDefaultConfig(
+		context.TODO(),
+		awsConfig.WithCredentialsProvider(creds),
+		awsConfig.WithRegion(cfg.awsRegion),
+	)
+	if err != nil {
+		mainInitLogger.Error("panic while initializing aws configs: %s", err)
+	}
+	client := s3.NewFromConfig(awsCfg)
+	uploader := manager.NewUploader(client)
+
+	controllers := initControllers(cfg, db, uploader)
 
 	server := echo.New()
 

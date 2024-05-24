@@ -31,6 +31,17 @@ func (svc *authServiceImpl) RegisterUser(
 		return errorutil.AddCurrentContext(err)
 	}
 
+	_, err = svc.repo.FindUserByEmailAndIsAdmin(ctx, req.Email, req.Role == "admin")
+
+	if err == nil {
+		return ErrEmailAlreadyRegistered
+	}
+
+	if !errors.Is(err, auth.ErrEmailAndIsAdminNotFound) {
+		// unexpected kind of error
+		return errorutil.AddCurrentContext(err)
+	}
+
 	cryptedPw, err := bcrypt.GenerateFromPassword(
 		[]byte(req.Password),
 		svc.bcryptCost,

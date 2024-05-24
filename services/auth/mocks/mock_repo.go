@@ -50,6 +50,21 @@ func (mr *MockAuthRepositoryMockRecorder) CreateUser(arg0, arg1 interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockAuthRepository)(nil).CreateUser), arg0, arg1)
 }
 
+// FindUserByEmailAndIsAdmin mocks base method.
+func (m *MockAuthRepository) FindUserByEmailAndIsAdmin(arg0 context.Context, arg1 string, arg2 bool) (auth.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindUserByEmailAndIsAdmin", arg0, arg1, arg2)
+	ret0, _ := ret[0].(auth.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindUserByEmailAndIsAdmin indicates an expected call of FindUserByEmailAndIsAdmin.
+func (mr *MockAuthRepositoryMockRecorder) FindUserByEmailAndIsAdmin(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByEmailAndIsAdmin", reflect.TypeOf((*MockAuthRepository)(nil).FindUserByEmailAndIsAdmin), arg0, arg1, arg2)
+}
+
 // FindUserByUsername mocks base method.
 func (m *MockAuthRepository) FindUserByUsername(arg0 context.Context, arg1 string) (auth.User, error) {
 	m.ctrl.T.Helper()
