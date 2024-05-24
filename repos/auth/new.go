@@ -5,11 +5,13 @@ import (
 )
 
 type authRepositoryImpl struct {
-	dbRizzer ctxrizz.DbContextRizzer
+	dbRizzer   ctxrizz.DbContextRizzer
+	statements statements
 }
 
 func NewAuthRepository(dbRizzer ctxrizz.DbContextRizzer) AuthRepository {
 	return &authRepositoryImpl{
-		dbRizzer: dbRizzer,
+		dbRizzer:   dbRizzer,
+		statements: prepareStatements(),
 	}
 }
