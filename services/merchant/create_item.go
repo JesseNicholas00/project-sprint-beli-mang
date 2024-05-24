@@ -1,17 +1,16 @@
-package merchantitem
+package merchant
 
 import (
 	"context"
 	"errors"
 
 	"github.com/JesseNicholas00/BeliMang/repos/merchant"
-	"github.com/JesseNicholas00/BeliMang/repos/merchantitem"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 	"github.com/google/uuid"
 )
 
-func (svc *merchantItemServiceImpl) CreateMerchantItem(
+func (svc *merchantServiceImpl) CreateMerchantItem(
 	ctx context.Context,
 	req CreateMerchantItemReq,
 	res *CreateMerchantItemRes,
@@ -25,7 +24,7 @@ func (svc *merchantItemServiceImpl) CreateMerchantItem(
 	}
 
 	return transaction.RunWithAutoCommit(&sess, func() error {
-		_, err := svc.mRepo.FindMerchantById(ctx, req.MerchantId)
+		_, err := svc.repo.FindMerchantById(ctx, req.MerchantId)
 
 		if err != nil {
 			if errors.Is(err, merchant.ErrMerchantNotFound) {
@@ -35,7 +34,7 @@ func (svc *merchantItemServiceImpl) CreateMerchantItem(
 		}
 
 		id := uuid.NewString()
-		mi := merchantitem.MerchantItem{
+		mi := merchant.MerchantItem{
 			Id:         id,
 			MerchantId: req.MerchantId,
 			Name:       req.Name,
@@ -44,7 +43,7 @@ func (svc *merchantItemServiceImpl) CreateMerchantItem(
 			ImageUrl:   req.ImageUrl,
 		}
 
-		err = svc.miRepo.CreateMerchantItem(ctx, mi)
+		err = svc.repo.CreateMerchantItem(ctx, mi)
 		if err != nil {
 			return errorutil.AddCurrentContext(err)
 		}
