@@ -38,6 +38,7 @@ func initControllers(
 	authRepository := authRepo.NewAuthRepository(dbRizzer)
 	authService := authSvc.NewAuthService(
 		authRepository,
+		dbRizzer,
 		cfg.jwtSecretKey,
 		cfg.bcryptSaltCost,
 	)
