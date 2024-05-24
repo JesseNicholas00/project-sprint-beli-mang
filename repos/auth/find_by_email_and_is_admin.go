@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
-	"github.com/jmoiron/sqlx"
 )
 
 func (repo *authRepositoryImpl) FindUserByEmailAndIsAdmin(
@@ -16,31 +15,15 @@ func (repo *authRepositoryImpl) FindUserByEmailAndIsAdmin(
 		return
 	}
 
-	query := `
-		SELECT
-			*
-		FROM
-			users
-		WHERE
-			email= :email AND
-			is_admin= :isAdmin
-		LIMIT 1
-	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
 	}
 
-	rows, err := sqlx.NamedQueryContext(
-		ctx,
-		sess.Ext,
-		query,
-		map[string]interface{}{
-			"email":    email,
-			"is_admin": isAdmin,
-		},
-	)
+	rows, err := sess.
+		Stmt(ctx, repo.statements.findFirstByEmailAndIsAdmin).
+		QueryxContext(ctx, email, isAdmin)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)

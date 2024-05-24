@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
-	"github.com/jmoiron/sqlx"
 )
 
 func (repo *authRepositoryImpl) FindUserByUsername(
@@ -14,29 +13,14 @@ func (repo *authRepositoryImpl) FindUserByUsername(
 	if err = ctx.Err(); err != nil {
 		return
 	}
-
-	query := `
-		SELECT
-			*
-		FROM
-			users
-		WHERE
-			username = :username
-	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
 	}
-
-	rows, err := sqlx.NamedQueryContext(
-		ctx,
-		sess.Ext,
-		query,
-		map[string]interface{}{
-			"username": username,
-		},
-	)
+	rows, err := sess.
+		Stmt(ctx, repo.statements.findByUsername).
+		QueryxContext(ctx, username)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
