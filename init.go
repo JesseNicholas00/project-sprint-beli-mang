@@ -8,8 +8,10 @@ import (
 	"github.com/JesseNicholas00/BeliMang/middlewares"
 	authRepo "github.com/JesseNicholas00/BeliMang/repos/auth"
 	merchantRepo "github.com/JesseNicholas00/BeliMang/repos/merchant"
+	merchantItemRepo "github.com/JesseNicholas00/BeliMang/repos/merchantitem"
 	authSvc "github.com/JesseNicholas00/BeliMang/services/auth"
 	merchantSvc "github.com/JesseNicholas00/BeliMang/services/merchant"
+	merchantItemSvc "github.com/JesseNicholas00/BeliMang/services/merchantitem"
 	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 	"github.com/JesseNicholas00/BeliMang/utils/logging"
@@ -48,8 +50,16 @@ func initControllers(
 
 	merchantRepository := merchantRepo.NewMerchantRepository(dbRizzer)
 	merchantService := merchantSvc.NewMerchantService(merchantRepository)
+
+	merchantItemRepository := merchantItemRepo.NewMerchantItemRepository(dbRizzer)
+	merchantItemService := merchantItemSvc.NewMerchantItemService(
+		merchantRepository,
+		merchantItemRepository,
+	)
+
 	merchantController := merchantCtrl.NewMerchantController(
 		merchantService,
+		merchantItemService,
 		adminMw,
 	)
 	ctrls = append(ctrls, merchantController)
