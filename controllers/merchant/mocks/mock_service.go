@@ -48,3 +48,17 @@ func (mr *MockMerchantServiceMockRecorder) CreateMerchant(arg0, arg1, arg2 inter
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMerchant", reflect.TypeOf((*MockMerchantService)(nil).CreateMerchant), arg0, arg1, arg2)
 }
+
+// CreateMerchantItem mocks base method.
+func (m *MockMerchantService) CreateMerchantItem(arg0 context.Context, arg1 merchant.CreateMerchantItemReq, arg2 *merchant.CreateMerchantItemRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateMerchantItem", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateMerchantItem indicates an expected call of CreateMerchantItem.
+func (mr *MockMerchantServiceMockRecorder) CreateMerchantItem(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMerchantItem", reflect.TypeOf((*MockMerchantService)(nil).CreateMerchantItem), arg0, arg1, arg2)
+}
