@@ -5,6 +5,7 @@ import (
 
 	"github.com/JesseNicholas00/BeliMang/repos/merchantitem"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
+	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 	"github.com/google/uuid"
 )
 
@@ -16,28 +17,35 @@ func (svc *merchantItemServiceImpl) CreateMerchantItem(
 	if err := ctx.Err(); err != nil {
 		return err
 	}
-
-	_, err := svc.mRepo.FindMerchantById(ctx, req.MerchantId)
-
+	ctx, sess, err := svc.dbRizzer.GetOrAppendTx(ctx)
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
 	}
 
-	id := uuid.NewString()
-	mi := merchantitem.MerchantItem{
-		Id:         id,
-		MerchantId: req.MerchantId,
-		Name:       req.Name,
-		Category:   req.Category,
-		Price:      req.Price,
-		ImageUrl:   req.ImageUrl,
-	}
+	return transaction.RunWithAutoCommit(&sess, func() error {
+		_, err := svc.mRepo.FindMerchantById(ctx, req.MerchantId)
 
-	err = svc.miRepo.CreateMerchantItem(ctx, mi)
-	if err != nil {
-		return errorutil.AddCurrentContext(err)
-	}
+		if err != nil {
+			return errorutil.AddCurrentContext(err)
+		}
 
-	res.ItemId = id
-	return nil
+		id := uuid.NewString()
+		mi := merchantitem.MerchantItem{
+			Id:         id,
+			MerchantId: req.MerchantId,
+			Name:       req.Name,
+			Category:   req.Category,
+			Price:      req.Price,
+			ImageUrl:   req.ImageUrl,
+		}
+
+		err = svc.miRepo.CreateMerchantItem(ctx, mi)
+		if err != nil {
+			return errorutil.AddCurrentContext(err)
+		}
+
+		res.ItemId = id
+		return nil
+	})
+
 }
