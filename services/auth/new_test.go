@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/services/auth/mocks"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -18,6 +19,7 @@ func NewWithMockedRepo(
 ) {
 	mockCtrl = gomock.NewController(t)
 	mockedRepo = mocks.NewMockAuthRepository(mockCtrl)
-	service = NewAuthService(mockedRepo, "testKey", 8).(*authServiceImpl)
+	mockedDbRizzer := ctxrizz.NewDbContextNoopRizzer()
+	service = NewAuthService(mockedRepo, mockedDbRizzer, "testKey", 8).(*authServiceImpl)
 	return
 }
