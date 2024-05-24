@@ -1,4 +1,4 @@
-package merchant
+package merchantitem
 
 import (
 	"github.com/JesseNicholas00/BeliMang/utils/statementutil"
@@ -6,34 +6,27 @@ import (
 )
 
 type statements struct {
-	create   *sqlx.NamedStmt
-	findById *sqlx.Stmt
+	create *sqlx.NamedStmt
 }
 
 func prepareStatements() statements {
 	return statements{
 		create: statementutil.MustPrepareNamed(`
-			INSERT INTO merchants(
+			INSERT INTO merchant_items(
+				merchant_item_id,
 				merchant_id,
 				name,
 				category,
-				image_url,
-				location
+				price,
+				image_url
 			) VALUES (
+				:merchant_item_id,
 				:merchant_id,
 				:name,
 				:category,
-				:image_url,
-				CAST(Point(:latitude, :longitude) AS geometry)
+				:price,
+				:image_url
 			)
-		`),
-		findById: statementutil.MustPrepare(`
-			SELECT
-				* 
-			FROM
-				merchants
-			WHERE
-				merchant_id LIKE $1
 		`),
 	}
 }
