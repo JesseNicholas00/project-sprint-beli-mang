@@ -2,7 +2,9 @@ package merchantitem
 
 import (
 	"context"
+	"errors"
 
+	"github.com/JesseNicholas00/BeliMang/repos/merchant"
 	"github.com/JesseNicholas00/BeliMang/repos/merchantitem"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/transaction"
@@ -26,6 +28,9 @@ func (svc *merchantItemServiceImpl) CreateMerchantItem(
 		_, err := svc.mRepo.FindMerchantById(ctx, req.MerchantId)
 
 		if err != nil {
+			if errors.Is(err, merchant.ErrMerchantNotFound) {
+				return ErrMerchantNotFound
+			}
 			return errorutil.AddCurrentContext(err)
 		}
 
