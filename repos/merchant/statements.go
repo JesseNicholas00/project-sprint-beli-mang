@@ -6,8 +6,9 @@ import (
 )
 
 type statements struct {
-	create   *sqlx.NamedStmt
-	findById *sqlx.Stmt
+	create     *sqlx.NamedStmt
+	createItem *sqlx.NamedStmt
+	findById   *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -25,6 +26,23 @@ func prepareStatements() statements {
 				:category,
 				:image_url,
 				CAST(Point(:latitude, :longitude) AS geometry)
+			)
+		`),
+		createItem: statementutil.MustPrepareNamed(`
+			INSERT INTO merchant_items(
+				merchant_item_id,
+				merchant_id,
+				name,
+				category,
+				price,
+				image_url
+			) VALUES (
+				:merchant_item_id,
+				:merchant_id,
+				:name,
+				:category,
+				:price,
+				:image_url
 			)
 		`),
 		findById: statementutil.MustPrepare(`

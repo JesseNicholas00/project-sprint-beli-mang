@@ -1,4 +1,4 @@
-package merchantitem
+package merchant
 
 import "errors"
 

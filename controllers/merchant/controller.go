@@ -4,14 +4,12 @@ import (
 	"github.com/JesseNicholas00/BeliMang/controllers"
 	"github.com/JesseNicholas00/BeliMang/middlewares"
 	"github.com/JesseNicholas00/BeliMang/services/merchant"
-	mi "github.com/JesseNicholas00/BeliMang/services/merchantitem"
 	"github.com/labstack/echo/v4"
 )
 
 type merchantController struct {
-	authMw    middlewares.Middleware
-	service   merchant.MerchantService
-	miService mi.MerchantItemService
+	authMw  middlewares.Middleware
+	service merchant.MerchantService
 }
 
 func (mc *merchantController) Register(server *echo.Echo) error {
@@ -22,12 +20,10 @@ func (mc *merchantController) Register(server *echo.Echo) error {
 
 func NewMerchantController(
 	service merchant.MerchantService,
-	miService mi.MerchantItemService,
 	authMw middlewares.Middleware,
 ) controllers.Controller {
 	return &merchantController{
-		service:   service,
-		miService: miService,
-		authMw:    authMw,
+		service: service,
+		authMw:  authMw,
 	}
 }
