@@ -58,6 +58,10 @@ func TestRegisterUser(t *testing.T) {
 				Return(auth.User{}, auth.ErrUsernameNotFound).
 				Times(1)
 			mockedRepo.EXPECT().
+				FindUserByEmailAndIsAdmin(gomock.Any(), req.Email, !repoReq.IsAdmin).
+				Return(auth.User{}, auth.ErrEmailAndIsAdminNotFound).
+				Times(1)
+			mockedRepo.EXPECT().
 				CreateUser(gomock.Any(), gomock.Any()).
 				Do(func(_ context.Context, reqFromSvc auth.User) {
 					So(reqFromSvc.Username, ShouldEqual, req.Username)
