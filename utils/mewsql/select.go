@@ -181,3 +181,34 @@ func (c *basicCondition) marshal(
 func WithCondition(sqlQuery string, bindVar interface{}) Condition {
 	return &basicCondition{sqlQuery: sqlQuery, bindVar: bindVar}
 }
+
+type multiCondition struct {
+	sqlQuery string
+	bindVars []interface{}
+}
+
+func (c *multiCondition) marshal(
+	bindVarCount *int,
+) (sql string, bindVars []interface{}) {
+	sql = c.sqlQuery
+
+	for _, bindVar := range c.bindVars {
+		*bindVarCount++
+		sql = strings.Replace(
+			sql,
+			"?",
+			fmt.Sprintf("$%d", *bindVarCount),
+			1,
+		)
+		bindVars = append(bindVars, bindVar)
+	}
+
+	return
+}
+
+func WithConditionMultiArgs(
+	sqlQuery string,
+	bindVars ...interface{},
+) Condition {
+	return &multiCondition{sqlQuery: sqlQuery, bindVars: bindVars}
+}

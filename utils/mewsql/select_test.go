@@ -1,6 +1,7 @@
 package mewsql_test
 
 import (
+	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/utils/mewsql"
@@ -16,6 +17,13 @@ func TestSelect(t *testing.T) {
 				mewsql.WithCondition("product_id = ?", "turbo-gyatt-001"),
 				mewsql.WithCondition("product_name ILIKE ?", "%amogus%"),
 				mewsql.WithCondition("product_sku = ?", "sku deez nuts"),
+				// not an actual postgis function but eh
+				mewsql.WithConditionMultiArgs(
+					"DIST(product_pos, Point(?, ?)) < ?",
+					float32(1.2),
+					float32(2.3),
+					float32(25),
+				),
 			),
 			mewsql.WithOrderBy("created_at", "asc"),
 			mewsql.WithLimit(5),
@@ -25,12 +33,15 @@ func TestSelect(t *testing.T) {
 			So(
 				sql,
 				ShouldEqual,
-				"SELECT product_id, product_name FROM products WHERE (product_id = $1 AND product_name ILIKE $2 AND product_sku = $3) ORDER BY created_at ASC LIMIT 5 OFFSET 0",
+				"SELECT product_id, product_name FROM products WHERE (product_id = $1 AND product_name ILIKE $2 AND product_sku = $3 AND DIST(product_pos, Point($4, $5)) < $6) ORDER BY created_at ASC LIMIT 5 OFFSET 0",
 			)
-			So(vars, ShouldHaveLength, 3)
+			So(vars, ShouldHaveLength, 6)
 			So(vars[0], ShouldEqual, "turbo-gyatt-001")
 			So(vars[1], ShouldEqual, "%amogus%")
 			So(vars[2], ShouldEqual, "sku deez nuts")
+			So(helper.IsEqualFloat(vars[3].(float32), 1.2), ShouldBeTrue)
+			So(helper.IsEqualFloat(vars[4].(float32), 2.3), ShouldBeTrue)
+			So(helper.IsEqualFloat(vars[5].(float32), 25.0), ShouldBeTrue)
 		})
 	})
 	Convey("When constructing a query with AND and OR joiners", t, func() {
