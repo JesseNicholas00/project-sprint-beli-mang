@@ -1,4 +1,4 @@
-package merchantitem
+package merchant
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 )
 
-func (repo *merchantItemRepoImpl) CreateMerchantItem(
+func (repo *merchantRepoImpl) CreateMerchantItem(
 	ctx context.Context,
 	mi MerchantItem,
 ) error {

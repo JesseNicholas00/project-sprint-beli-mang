@@ -15,4 +15,9 @@ type MerchantService interface {
 		req AdminListMerchantReq,
 		res *AdminListMerchantRes,
 	) error
+	CreateMerchantItem(
+		ctx context.Context,
+		req CreateMerchantItemReq,
+		res *CreateMerchantItemRes,
+	) error
 }

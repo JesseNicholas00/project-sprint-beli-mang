@@ -1,9 +1,11 @@
 package merchant
 
 import (
-	"github.com/JesseNicholas00/BeliMang/services/merchant/mocks"
-	"github.com/golang/mock/gomock"
 	"testing"
+
+	"github.com/JesseNicholas00/BeliMang/services/merchant/mocks"
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+	"github.com/golang/mock/gomock"
 )
 
 //go:generate mockgen -destination mocks/mock_repo.go -package mocks github.com/JesseNicholas00/BeliMang/repos/merchant MerchantRepository
@@ -17,6 +19,7 @@ func NewWithMockedRepo(
 ) {
 	mockCtrl = gomock.NewController(t)
 	mockedRepo = mocks.NewMockMerchantRepository(mockCtrl)
-	service = NewMerchantService(mockedRepo).(*merchantServiceImpl)
+	noopRizzer := ctxrizz.NewDbContextNoopRizzer()
+	service = NewMerchantService(mockedRepo, noopRizzer).(*merchantServiceImpl)
 	return
 }
