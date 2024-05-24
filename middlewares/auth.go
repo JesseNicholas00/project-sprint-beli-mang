@@ -3,16 +3,19 @@ package middlewares
 import (
 	"errors"
 	"net/http"
+	"slices"
 	"strings"
 
 	"github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/labstack/echo/v4"
 )
 
 type authMiddleware struct {
-	service auth.AuthService
-	binder  *echo.DefaultBinder
+	service      auth.AuthService
+	binder       *echo.DefaultBinder
+	allowedRoles []role.Role
 }
 
 func (mw *authMiddleware) Process(next echo.HandlerFunc) echo.HandlerFunc {
@@ -66,6 +69,12 @@ func (mw *authMiddleware) Process(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 		}
 
+		if !slices.Contains(mw.allowedRoles, role.GetRole(res.IsAdmin)) {
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": "incorrect user role",
+			})
+		}
+
 		c.Set("session", res)
 
 		return next(c)
@@ -74,9 +83,11 @@ func (mw *authMiddleware) Process(next echo.HandlerFunc) echo.HandlerFunc {
 
 func NewAuthMiddleware(
 	service auth.AuthService,
+	allowedRoles ...role.Role,
 ) Middleware {
 	return &authMiddleware{
-		service: service,
-		binder:  &echo.DefaultBinder{},
+		service:      service,
+		binder:       &echo.DefaultBinder{},
+		allowedRoles: allowedRoles,
 	}
 }

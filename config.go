@@ -23,6 +23,11 @@ type ServerConfig struct {
 	jwtSecretKey   string
 	bcryptSaltCost int
 
+	awsAccessKeyID     string
+	awsSecretAccessKey string
+	awsS3BucketName    string
+	awsRegion          string
+
 	logLevel string
 
 	traceSlowEndpoints bool
@@ -73,6 +78,11 @@ func loadConfig() (cfg ServerConfig, err error) {
 
 	cfg.jwtSecretKey = conf.GetString("JWT_SECRET")
 	cfg.bcryptSaltCost = conf.GetInt("BCRYPT_SALT")
+
+	cfg.awsAccessKeyID = conf.GetString("AWS_ACCESS_KEY_ID")
+	cfg.awsSecretAccessKey = conf.GetString("AWS_SECRET_ACCESS_KEY")
+	cfg.awsS3BucketName = conf.GetString("AWS_S3_BUCKET_NAME")
+	cfg.awsRegion = conf.GetString("AWS_REGION")
 
 	cfg.logLevel = conf.GetString("LOG_LEVEL")
 
