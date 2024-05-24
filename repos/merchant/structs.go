@@ -5,6 +5,6 @@ type Merchant struct {
 	Name      string  `db:"name"`
 	Category  string  `db:"category"`
 	ImageUrl  string  `db:"image_url"`
-	Latitude  float32 `db:"latitude"`
-	Longitude float32 `db:"longitude"`
+	Latitude  float64 `db:"latitude"`
+	Longitude float64 `db:"longitude"`
 }

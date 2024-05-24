@@ -23,8 +23,8 @@ func TestCreateMerchantValid(t *testing.T) {
 		category := "SmallRestaurant"
 		imageUrl := "https://bread.com/bread.png"
 		coords := location.Location{
-			Latitude:  helper.ToPointer(float32(6.9)),
-			Longitude: helper.ToPointer(float32(42.0)),
+			Latitude:  helper.ToPointer(6.9),
+			Longitude: helper.ToPointer(42.0),
 		}
 
 		rec := httptest.NewRecorder()
@@ -101,8 +101,8 @@ func TestCreateMerchantInvalid(t *testing.T) {
 		category := "wrong category lol"
 		imageUrl := "https://bread.com/bread.png"
 		coords := location.Location{
-			Latitude:  helper.ToPointer(float32(6.9)),
-			Longitude: helper.ToPointer(float32(42.0)),
+			Latitude:  helper.ToPointer(6.9),
+			Longitude: helper.ToPointer(42.0),
 		}
 
 		rec := httptest.NewRecorder()
