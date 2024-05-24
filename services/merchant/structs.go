@@ -1,6 +1,9 @@
 package merchant
 
-import "github.com/JesseNicholas00/BeliMang/types/location"
+import (
+	"github.com/JesseNicholas00/BeliMang/types/location"
+	"github.com/JesseNicholas00/BeliMang/types/pagination"
+)
 
 type CreateMerchantReq struct {
 	Name     string            `json:"name"             validate:"required,min=2,max=30"`
@@ -11,4 +14,27 @@ type CreateMerchantReq struct {
 
 type CreateMerchantRes struct {
 	Id string `json:"merchantId"`
+}
+
+type AdminListMerchantReq struct {
+	MerchantId       *string `query:"merchantId"`
+	Limit            *int    `query:"limit"`
+	Offset           *int    `query:"offset"`
+	Name             *string `query:"name"`
+	MerchantCategory *string `query:"merchantCategory"`
+	CreatedAtSort    *string `query:"createdAt"`
+}
+
+type AdminListMerchantRes struct {
+	Data []ListMerchantResData `json:"data"`
+	Meta pagination.Page       `json:"meta"`
+}
+
+type ListMerchantResData struct {
+	MerchantId       string            `json:"merchantId"`
+	Name             string            `json:"name"`
+	MerchantCategory string            `json:"merchantCategory"`
+	ImageUrl         string            `json:"imageUrl"`
+	Location         location.Location `json:"location"`
+	CreatedAt        string            `json:"createdAt"`
 }

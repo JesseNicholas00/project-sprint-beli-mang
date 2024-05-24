@@ -1,6 +1,8 @@
 package merchant
 
-import "github.com/JesseNicholas00/BeliMang/repos/merchant"
+import (
+	"github.com/JesseNicholas00/BeliMang/repos/merchant"
+)
 
 type merchantServiceImpl struct {
 	repo merchant.MerchantRepository

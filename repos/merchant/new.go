@@ -1,6 +1,8 @@
 package merchant
 
-import "github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+import (
+	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
+)
 
 type merchantRepoImpl struct {
 	dbRizz     ctxrizz.DbContextRizzer
