@@ -3,8 +3,12 @@ package main
 import (
 	"github.com/JesseNicholas00/BeliMang/controllers"
 	authCtrl "github.com/JesseNicholas00/BeliMang/controllers/auth"
+	merchantCtrl "github.com/JesseNicholas00/BeliMang/controllers/merchant"
+	"github.com/JesseNicholas00/BeliMang/middlewares"
 	authRepo "github.com/JesseNicholas00/BeliMang/repos/auth"
+	merchantRepo "github.com/JesseNicholas00/BeliMang/repos/merchant"
 	authSvc "github.com/JesseNicholas00/BeliMang/services/auth"
+	merchantSvc "github.com/JesseNicholas00/BeliMang/services/merchant"
 	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 	"github.com/JesseNicholas00/BeliMang/utils/logging"
 	"github.com/jmoiron/sqlx"
@@ -27,17 +31,24 @@ func initControllers(
 
 	// withTxMw := middlewares.NewWithTxMiddleware(dbRizzer)
 
-	authRepo := authRepo.NewAuthRepository(dbRizzer)
-	authSvc := authSvc.NewAuthService(
-		authRepo,
+	authRepository := authRepo.NewAuthRepository(dbRizzer)
+	authService := authSvc.NewAuthService(
+		authRepository,
 		cfg.jwtSecretKey,
 		cfg.bcryptSaltCost,
 	)
-	authCtrl := authCtrl.NewAuthController(authSvc)
-	// authCtrl := authCtrl.NewAuthController(authSvc, withTxMw)
-	// authMw := middlewares.NewAuthMiddleware(authSvc)
+	authController := authCtrl.NewAuthController(authService)
+	ctrls = append(ctrls, authController)
 
-	ctrls = append(ctrls, authCtrl)
+	authMw := middlewares.NewAuthMiddleware(authService)
+
+	merchantRepository := merchantRepo.NewMerchantRepository(dbRizzer)
+	merchantService := merchantSvc.NewMerchantService(merchantRepository)
+	merchantController := merchantCtrl.NewMerchantController(
+		merchantService,
+		authMw,
+	)
+	ctrls = append(ctrls, merchantController)
 
 	return
 }

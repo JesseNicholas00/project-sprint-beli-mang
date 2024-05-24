@@ -14,12 +14,12 @@ var imageExtensions = map[string]struct{}{
 	"jpeg": blank,
 }
 
-func validateImageExtenstionImpl(imageUrl string) bool {
+func validateImageExtensionImpl(imageUrl string) bool {
 	ext := imageUrl[strings.LastIndex(imageUrl, ".")+1:]
 	_, ok := imageExtensions[ext]
 	return ok
 }
 
 func ValidateImageExtension(fl validator.FieldLevel) bool {
-	return validateImageExtenstionImpl(fl.Field().String())
+	return validateImageExtensionImpl(fl.Field().String())
 }
