@@ -1,5 +1,7 @@
 package helper
 
+import "math"
+
 const maxDigit = 18
 
 var Pow10 = func() (ret []int64) {
@@ -34,4 +36,8 @@ func GetLen(val int64) int {
 func GetSubDigit(val int64, len, leftDigit, rightDigit int) int64 {
 	targetLen := rightDigit - leftDigit + 1
 	return val / Pow10[len-rightDigit] % Pow10[targetLen]
+}
+
+func IsEqualFloat[T float32 | float64](a, b T) bool {
+	return math.Abs(float64(a)-float64(b)) < 1e-6
 }

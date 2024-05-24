@@ -19,7 +19,7 @@ func SetupTestDatabase(migrationsPath string, t *testing.T) *sqlx.DB {
 	// 1. Start the postgres container and run any migrations on it
 	container, err := postgres.RunContainer(
 		ctx,
-		testcontainers.WithImage("docker.io/postgres:15-alpine"),
+		testcontainers.WithImage("postgis/postgis:16-master"),
 		postgres.WithDatabase("testing"),
 		postgres.WithUsername("postgres"),
 		postgres.WithPassword("postgres"),

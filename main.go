@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/JesseNicholas00/BeliMang/utils/statementutil"
 
 	"github.com/JesseNicholas00/BeliMang/middlewares"
 	"github.com/JesseNicholas00/BeliMang/utils/logging"
@@ -53,7 +54,15 @@ func main() {
 	db.SetMaxIdleConns(cfg.dbMaxIdleConns)
 	db.SetConnMaxLifetime(cfg.dbMaxConnLifetime)
 
-	defer db.Close()
+	defer func() {
+		err := db.Close()
+		if err != nil {
+			mainInitLogger.Error(err.Error())
+		}
+	}()
+
+	statementutil.SetUp(db)
+	defer statementutil.CleanUp()
 
 	controllers := initControllers(cfg, db)
 
