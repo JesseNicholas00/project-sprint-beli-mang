@@ -65,7 +65,7 @@ func (opt *genericSelectOptionImpl) getKind() int {
 }
 
 func (opt *genericSelectOptionImpl) marshal(
-	bindVarCount *int,
+	_ *int,
 ) (ret string, vars []interface{}) {
 	ret = opt.statement
 	return
@@ -166,7 +166,7 @@ func (c *basicCondition) marshal(
 	sql = c.sqlQuery
 
 	if c.bindVar != nil {
-		(*bindVarCount)++
+		*bindVarCount++
 		sql = strings.ReplaceAll(
 			sql,
 			"?",
