@@ -1,6 +1,7 @@
 package merchant
 
 import (
+	"errors"
 	"net/http"
 
 	mi "github.com/JesseNicholas00/BeliMang/services/merchantitem"
@@ -18,6 +19,9 @@ func (mc *merchantController) createMerchantItems(c echo.Context) error {
 	var res mi.CreateMerchantItemRes
 	err := mc.miService.CreateMerchantItem(c.Request().Context(), req, &res)
 	if err != nil {
+		if errors.Is(err, mi.ErrMerchantNotFound) {
+			return echo.NewHTTPError(http.StatusNotFound)
+		}
 		return errorutil.AddCurrentContext(err)
 	}
 
