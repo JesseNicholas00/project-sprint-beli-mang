@@ -16,7 +16,7 @@ type MerchantItem struct {
 	MerchantId string    `db:"merchant_id"`
 	Name       string    `db:"name"`
 	Category   string    `db:"category"`
-	Price      int       `db:"price"`
+	Price      int64     `db:"price"`
 	ImageUrl   string    `db:"image_url"`
 	CreatedAt  time.Time `db:"created_at"`
 }

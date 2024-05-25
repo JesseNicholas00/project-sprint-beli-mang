@@ -6,9 +6,11 @@ import (
 )
 
 type statements struct {
-	create     *sqlx.NamedStmt
-	createItem *sqlx.NamedStmt
-	findById   *sqlx.Stmt
+	create         *sqlx.NamedStmt
+	createItem     *sqlx.NamedStmt
+	findById       *sqlx.Stmt
+	listByIds      *sqlx.Stmt
+	listItemsByIds *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -52,6 +54,22 @@ func prepareStatements() statements {
 				merchants
 			WHERE
 				merchant_id = $1
+		`),
+		listByIds: statementutil.MustPrepare(`
+			SELECT
+				* 
+			FROM
+				merchants
+			WHERE
+				merchant_id IN $1
+		`),
+		listItemsByIds: statementutil.MustPrepare(`
+			SELECT
+				* 
+			FROM
+				merchant_items
+			WHERE
+				merchant_item_id IN $1
 		`),
 	}
 }
