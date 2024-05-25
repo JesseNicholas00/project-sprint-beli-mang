@@ -35,6 +35,22 @@ func (m *MockMerchantRepository) EXPECT() *MockMerchantRepositoryMockRecorder {
 	return m.recorder
 }
 
+// AdminListMerchant mocks base method.
+func (m *MockMerchantRepository) AdminListMerchant(arg0 context.Context, arg1 merchant.AdminMerchantListFilter) ([]merchant.Merchant, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdminListMerchant", arg0, arg1)
+	ret0, _ := ret[0].([]merchant.Merchant)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// AdminListMerchant indicates an expected call of AdminListMerchant.
+func (mr *MockMerchantRepositoryMockRecorder) AdminListMerchant(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdminListMerchant", reflect.TypeOf((*MockMerchantRepository)(nil).AdminListMerchant), arg0, arg1)
+}
+
 // CreateMerchant mocks base method.
 func (m *MockMerchantRepository) CreateMerchant(arg0 context.Context, arg1 merchant.Merchant) error {
 	m.ctrl.T.Helper()
