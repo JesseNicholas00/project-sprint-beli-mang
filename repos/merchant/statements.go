@@ -51,7 +51,7 @@ func prepareStatements() statements {
 			FROM
 				merchants
 			WHERE
-				merchant_id LIKE $1
+				merchant_id = $1
 		`),
 	}
 }
