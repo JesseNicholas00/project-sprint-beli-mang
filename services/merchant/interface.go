@@ -10,4 +10,9 @@ type MerchantService interface {
 		req CreateMerchantReq,
 		res *CreateMerchantRes,
 	) error
+	CreateMerchantItem(
+		ctx context.Context,
+		req CreateMerchantItemReq,
+		res *CreateMerchantItemRes,
+	) error
 }

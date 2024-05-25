@@ -1,12 +1,13 @@
 package merchant
 
 import (
+	"testing"
+
 	"github.com/JesseNicholas00/BeliMang/controllers/merchant/mocks"
 	"github.com/JesseNicholas00/BeliMang/middlewares"
 	"github.com/golang/mock/gomock"
 	"github.com/labstack/echo/v4"
 	. "github.com/smartystreets/goconvey/convey"
-	"testing"
 )
 
 //go:generate mockgen -destination mocks/mock_service.go -package mocks github.com/JesseNicholas00/BeliMang/services/merchant MerchantService

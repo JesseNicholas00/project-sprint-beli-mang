@@ -48,7 +48,8 @@ func initControllers(
 	adminMw := middlewares.NewAuthMiddleware(authService, role.Admin)
 
 	merchantRepository := merchantRepo.NewMerchantRepository(dbRizzer)
-	merchantService := merchantSvc.NewMerchantService(merchantRepository)
+	merchantService := merchantSvc.NewMerchantService(merchantRepository, dbRizzer)
+
 	merchantController := merchantCtrl.NewMerchantController(
 		merchantService,
 		adminMw,
