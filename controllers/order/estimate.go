@@ -36,9 +36,17 @@ func (ctrl *orderController) estimateOrder(c echo.Context) error {
 
 	if err != nil {
 		switch {
-		case errors.Is(err, order.ErrCoordsTooFar):
+		case errors.Is(err, order.ErrTooFar):
 			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
-				"message": "merchant coordinates too far away",
+				"message": "minimum distance traveled is too far",
+			})
+		case errors.Is(err, order.ErrMerchantNotFound):
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": "merchant not found",
+			})
+		case errors.Is(err, order.ErrItemNotFound):
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": "item not found",
 			})
 
 		default:
