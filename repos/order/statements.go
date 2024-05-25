@@ -7,7 +7,6 @@ import (
 
 type statements struct {
 	createEstimate                *sqlx.NamedStmt
-	createEstimateItems           *sqlx.NamedStmt
 	findEstimateById              *sqlx.Stmt
 	findEstimateItemsByEstimateId *sqlx.Stmt
 }
@@ -19,22 +18,8 @@ func prepareStatements() statements {
 			    estimate_id,
 				user_id
 			) VALUES (
-				:order_id,
-				:user_id
-			)
-		`),
-
-		createEstimateItems: statementutil.MustPrepareNamed(`
-			INSERT INTO estimate_items(
-				estimate_id,
-				merchant_id,
-				merchant_item_id,
-				quantity
-			) VALUES (
 				:estimate_id,
-				:merchant_id,
-				:merchant_item_id,
-				:quantity
+				:user_id
 			)
 		`),
 

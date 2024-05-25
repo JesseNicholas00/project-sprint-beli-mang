@@ -41,7 +41,7 @@ func (repo *orderRepositoryImpl) FindEstimateById(
 		}
 
 		rows, err := sess.
-			Stmt(ctx, repo.statements.findEstimateById).
+			Stmt(ctx, repo.statements.findEstimateItemsByEstimateId).
 			QueryxContext(ctx, id)
 		if err != nil {
 			return errorutil.AddCurrentContext(err)
