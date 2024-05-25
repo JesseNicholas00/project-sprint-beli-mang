@@ -61,7 +61,7 @@ func prepareStatements() statements {
 			FROM
 				merchants
 			WHERE
-				merchant_id IN $1
+				merchant_id IN ($1)
 		`),
 		listItemsByIds: statementutil.MustPrepare(`
 			SELECT
@@ -69,7 +69,7 @@ func prepareStatements() statements {
 			FROM
 				merchant_items
 			WHERE
-				merchant_item_id IN $1
+				merchant_item_id IN ($1)
 		`),
 	}
 }
