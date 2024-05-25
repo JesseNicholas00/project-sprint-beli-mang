@@ -8,7 +8,7 @@ import (
 
 func (repo *merchantRepoImpl) FindMerchantById(
 	ctx context.Context,
-	merchant_id string,
+	merchantId string,
 ) (res Merchant, err error) {
 	if err = ctx.Err(); err != nil {
 		return
@@ -22,7 +22,7 @@ func (repo *merchantRepoImpl) FindMerchantById(
 
 	rows, err := sess.
 		Stmt(ctx, repo.statements.findById).
-		QueryxContext(ctx, merchant_id)
+		QueryxContext(ctx, merchantId)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
