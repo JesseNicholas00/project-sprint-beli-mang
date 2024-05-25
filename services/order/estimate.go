@@ -107,6 +107,12 @@ func (svc *orderServiceImpl) EstimateOrder(
 		var distMatrix = make([][]float64, len(coords))
 		for i := range distMatrix {
 			distMatrix[i] = make([]float64, len(coords))
+			for j := range distMatrix[i] {
+				distMatrix[i][j] = location.GetDistance(
+					coords[i],
+					coords[j],
+				)
+			}
 		}
 
 		totalDistance, err := graphs.GetTspDistance(
