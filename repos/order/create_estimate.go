@@ -7,6 +7,12 @@ import (
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 )
 
+type dbEstimateItem struct {
+	EstimateItem
+	Id      int64  `db:"order_item_id"`
+	OrderId string `db:"order_id"`
+}
+
 func (repo *orderRepositoryImpl) CreateEstimate(
 	ctx context.Context,
 	est Estimate,

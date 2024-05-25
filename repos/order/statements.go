@@ -6,8 +6,10 @@ import (
 )
 
 type statements struct {
-	createEstimate      *sqlx.NamedStmt
-	createEstimateItems *sqlx.NamedStmt
+	createEstimate                *sqlx.NamedStmt
+	createEstimateItems           *sqlx.NamedStmt
+	findEstimateById              *sqlx.Stmt
+	findEstimateItemsByEstimateId *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -34,6 +36,27 @@ func prepareStatements() statements {
 				:merchant_item_id,
 				:quantity
 			)
+		`),
+
+		findEstimateById: statementutil.MustPrepare(`
+			SELECT
+				*
+			FROM
+				estimates
+			WHERE
+				estimate_id = $1
+		`),
+
+		findEstimateItemsByEstimateId: statementutil.MustPrepare(`
+			SELECT
+				merchant_id,
+				merchant_item_id,
+				quantity
+			FROM
+				estimates JOIN estimate_items ON
+					estimates.estimate_id = estimate_items.estimate_id
+			WHERE
+				estimates.estimate_id = $1
 		`),
 	}
 }
