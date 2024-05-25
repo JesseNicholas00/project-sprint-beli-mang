@@ -1,9 +1,10 @@
 package validation
 
 import (
-	"github.com/JesseNicholas00/BeliMang/utils/validation/merchant"
 	"reflect"
 	"strings"
+
+	"github.com/JesseNicholas00/BeliMang/utils/validation/merchant"
 
 	"github.com/JesseNicholas00/BeliMang/utils/validation/image"
 	"github.com/JesseNicholas00/BeliMang/utils/validation/intlen"
@@ -36,6 +37,10 @@ var customFields = []customField{
 	{
 		Tag:       "merchantCategory",
 		Validator: merchant.ValidateCategory,
+	},
+	{
+		Tag:       "productCategory",
+		Validator: merchant.ValidateProductCategory,
 	},
 }
 
