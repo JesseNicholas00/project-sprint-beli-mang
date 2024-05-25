@@ -19,7 +19,7 @@ func (repo *merchantRepoImpl) CreateMerchantItem(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	_, err = sess.NamedStmt(ctx, repo.statements.create).Exec(mi)
+	_, err = sess.NamedStmt(ctx, repo.statements.createItem).Exec(mi)
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
 	}
