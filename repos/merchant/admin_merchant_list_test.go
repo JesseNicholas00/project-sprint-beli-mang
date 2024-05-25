@@ -19,9 +19,9 @@ func TestAdminListMerchant(t *testing.T) {
 		merchantIds := []string{"220132512342", "220132512344", "220132512343"}
 		names := []string{"epic", "epic_gamer_2", "gamer3"}
 		merchantCategory := []string{"goodCategory", "badCategory", "lolMewGyattRizz"}
-		lat := []float64{float64(1.1), float64(3.3), float64(5.5)}
-		lon := []float64{float64(2.2), float64(4.4), float64(6.6)}
-		createtAts := []time.Time{time.Now(), time.Now().AddDate(0, 0, 2), time.Now().AddDate(0, 0, 3)}
+		lat := []float64{1.1, 3.3, 5.5}
+		lon := []float64{2.2, 4.4, 6.6}
+		createtAts := []time.Time{time.Now().AddDate(0, 0, -2), time.Now().AddDate(0, 0, -1), time.Now()}
 
 		var merchants []merchant.Merchant
 		for i := 0; i < 3; i++ {

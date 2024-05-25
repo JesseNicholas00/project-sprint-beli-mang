@@ -41,7 +41,7 @@ func (svc *merchantServiceImpl) AdminListMerchant(
 				Latitude:  &merchant.Latitude,
 				Longitude: &merchant.Longitude,
 			},
-			CreatedAt: merchant.CreatedAt.Format(time.RFC3339),
+			CreatedAt: merchant.CreatedAt.Format(time.RFC3339Nano),
 		})
 	}
 	res.Meta = pagination.Page{

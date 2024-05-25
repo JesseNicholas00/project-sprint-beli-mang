@@ -33,7 +33,7 @@ func TestAdminList(t *testing.T) {
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
 			http.MethodGet,
-			"/v1/medical/patient",
+			"/admin/merchants",
 			rec,
 			unittesting.WithQueryParams(map[string]string{
 				"merchantId":       fmt.Sprint(merchantId),
