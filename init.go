@@ -5,11 +5,14 @@ import (
 	authCtrl "github.com/JesseNicholas00/BeliMang/controllers/auth"
 	imageCtrl "github.com/JesseNicholas00/BeliMang/controllers/image"
 	merchantCtrl "github.com/JesseNicholas00/BeliMang/controllers/merchant"
+	orderCtrl "github.com/JesseNicholas00/BeliMang/controllers/order"
 	"github.com/JesseNicholas00/BeliMang/middlewares"
 	authRepo "github.com/JesseNicholas00/BeliMang/repos/auth"
 	merchantRepo "github.com/JesseNicholas00/BeliMang/repos/merchant"
+	orderRepo "github.com/JesseNicholas00/BeliMang/repos/order"
 	authSvc "github.com/JesseNicholas00/BeliMang/services/auth"
 	merchantSvc "github.com/JesseNicholas00/BeliMang/services/merchant"
+	orderSvc "github.com/JesseNicholas00/BeliMang/services/order"
 	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 	"github.com/JesseNicholas00/BeliMang/utils/logging"
@@ -46,18 +49,37 @@ func initControllers(
 	ctrls = append(ctrls, authController)
 
 	adminMw := middlewares.NewAuthMiddleware(authService, role.Admin)
+	userMw := middlewares.NewAuthMiddleware(authService, role.User)
 
 	merchantRepository := merchantRepo.NewMerchantRepository(dbRizzer)
-	merchantService := merchantSvc.NewMerchantService(merchantRepository, dbRizzer)
-
+	merchantService := merchantSvc.NewMerchantService(
+		merchantRepository,
+		dbRizzer,
+	)
 	merchantController := merchantCtrl.NewMerchantController(
 		merchantService,
 		adminMw,
 	)
 	ctrls = append(ctrls, merchantController)
 
-	imageCtrl := imageCtrl.NewImageController(uploader, cfg.awsS3BucketName, adminMw)
-	ctrls = append(ctrls, imageCtrl)
+	imageController := imageCtrl.NewImageController(
+		uploader,
+		cfg.awsS3BucketName,
+		adminMw,
+	)
+	ctrls = append(ctrls, imageController)
+
+	orderRepository := orderRepo.NewOrderRepository(dbRizzer)
+	orderService := orderSvc.NewOrderService(
+		orderRepository,
+		merchantRepository,
+		dbRizzer,
+	)
+	orderController := orderCtrl.NewOrderController(
+		orderService,
+		userMw,
+	)
+	ctrls = append(ctrls, orderController)
 
 	return
 }
