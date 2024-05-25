@@ -50,3 +50,26 @@ type CreateMerchantItemReq struct {
 type CreateMerchantItemRes struct {
 	ItemId string `json:"itemId"`
 }
+
+type MerchantItemListReq struct {
+	MerchantItemId *string `query:"itemId"`
+	Limit          *int    `query:"limit"`
+	Offset         *int    `query:"offset"`
+	Name           *string `query:"name"`
+	Category       *string `query:"productCategory"`
+	CreatedAtSort  *string `query:"createdAt"`
+}
+
+type ListMerchantItemResData struct {
+	MerchantItemId string `json:"itemId"`
+	Name           string `json:"name"`
+	Category       string `json:"productCategory"`
+	Price          int    `json:"price"`
+	ImageUrl       string `json:"imageUrl"`
+	CreatedAt      string `json:"createdAt"`
+}
+
+type MerchantItemListRes struct {
+	Data []ListMerchantItemResData `json:"data"`
+	Meta pagination.Page           `json:"meta"`
+}

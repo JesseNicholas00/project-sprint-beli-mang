@@ -34,3 +34,12 @@ type MerchantItem struct {
 	ImageUrl   string    `db:"image_url"`
 	CreatedAt  time.Time `db:"created_at"`
 }
+
+type MerchantItemListFilter struct {
+	MerchantItemId *string
+	Limit          int
+	Offset         int
+	Name           *string
+	Category       *string
+	CreatedAtSort  *string
+}
