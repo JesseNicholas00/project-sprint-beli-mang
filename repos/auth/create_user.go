@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
-	"github.com/jmoiron/sqlx"
 )
 
 func (repo *authRepositoryImpl) CreateUser(
@@ -15,33 +14,13 @@ func (repo *authRepositoryImpl) CreateUser(
 		return
 	}
 
-	query := `
-		INSERT INTO users(
-			user_id,
-			username,
-			email,
-			password,
-			is_admin	
-		) VALUES (
-			:user_id,
-			:username,
-			:email,
-			:password,
-			:is_admin
-		) RETURNING
-			user_id,
-			username,
-			email,
-			password,
-			is_admin
-	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
 	}
 
-	rows, err := sqlx.NamedQueryContext(ctx, sess.Ext, query, user)
+	rows, err := sess.NamedStmt(ctx, repo.statements.create).Queryx(user)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
