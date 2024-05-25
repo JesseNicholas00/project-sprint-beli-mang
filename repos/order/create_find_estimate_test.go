@@ -2,15 +2,22 @@ package order_test
 
 import (
 	"context"
+	"errors"
 	"github.com/JesseNicholas00/BeliMang/repos/order"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )
 
 func TestCreateAndFindEstimate(t *testing.T) {
-	Convey("When creating an estimate", t, func() {
-		repo := NewWithTestDatabase(t)
+	repo := NewWithTestDatabase(t)
+	Convey("When attempting to retrieve a non-existent estimate", t, func() {
+		Convey("Should return err", func() {
+			_, err := repo.FindEstimateById(context.TODO(), "none")
+			So(errors.Is(err, order.ErrEstimateNotFound), ShouldBeTrue)
+		})
+	})
 
+	Convey("When creating an estimate", t, func() {
 		est := order.Estimate{
 			Id:     "gamer-moment",
 			UserId: "epic-gamer",
@@ -40,7 +47,7 @@ func TestCreateAndFindEstimate(t *testing.T) {
 			Convey("And the item should be retrievable", func() {
 				res, err := repo.FindEstimateById(context.TODO(), est.Id)
 				So(err, ShouldBeNil)
-				// copy over createdAt since it wasn't given
+				// copy over createdAt
 				est.CreatedAt = res.CreatedAt
 				So(res, ShouldEqual, est)
 			})
