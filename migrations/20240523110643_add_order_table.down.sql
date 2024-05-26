@@ -1,1 +1,3 @@
+DROP TABLE IF EXISTS estimates;
+
 DROP TABLE IF EXISTS orders;

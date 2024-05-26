@@ -21,7 +21,7 @@ func TestCreateMerchantItem(t *testing.T) {
 		name := "bread"
 		category := "SmallRestaurant"
 		imageUrl := "https://bread.com/bread.png"
-		price := 1000
+		price := int64(1000)
 		coords := location.Location{
 			Latitude:  helper.ToPointer(6.9),
 			Longitude: helper.ToPointer(42.0),

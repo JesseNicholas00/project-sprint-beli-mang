@@ -43,7 +43,7 @@ type CreateMerchantItemReq struct {
 	MerchantId string `validate:"required,min=1"           param:"merchantId"`
 	Name       string `validate:"required,min=2,max=30"                       json:"name"`
 	Category   string `validate:"required,productCategory"                    json:"productCategory"`
-	Price      int    `validate:"required,min=1"                              json:"price"`
+	Price      int64  `validate:"required,min=1"                              json:"price"`
 	ImageUrl   string `validate:"required,url,imageExt"                       json:"imageUrl"`
 }
 

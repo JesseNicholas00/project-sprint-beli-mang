@@ -6,9 +6,11 @@ import (
 )
 
 type statements struct {
-	create     *sqlx.NamedStmt
-	createItem *sqlx.NamedStmt
-	findById   *sqlx.Stmt
+	create         *sqlx.NamedStmt
+	createItem     *sqlx.NamedStmt
+	findById       *sqlx.Stmt
+	listByIds      *sqlx.Stmt
+	listItemsByIds *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -47,11 +49,39 @@ func prepareStatements() statements {
 		`),
 		findById: statementutil.MustPrepare(`
 			SELECT
-				* 
+				merchant_id,
+				name,
+				category,
+				image_url,
+				ST_X(location::geometry) AS longitude,
+				ST_Y(location::geometry) AS latitude,
+				created_at 
 			FROM
 				merchants
 			WHERE
 				merchant_id = $1
+		`),
+		listByIds: statementutil.MustPrepare(`
+			SELECT
+				merchant_id,
+				name,
+				category,
+				image_url,
+				ST_X(location::geometry) AS longitude,
+				ST_Y(location::geometry) AS latitude,
+				created_at 
+			FROM
+				merchants
+			WHERE
+				merchant_id = ANY ($1)
+		`),
+		listItemsByIds: statementutil.MustPrepare(`
+			SELECT
+				* 
+			FROM
+				merchant_items
+			WHERE
+				merchant_item_id = ANY ($1)
 		`),
 	}
 }

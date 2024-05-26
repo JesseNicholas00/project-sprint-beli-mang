@@ -1,6 +1,7 @@
-CREATE TABLE order_items (
-    order_item_id TEXT PRIMARY KEY,
-    order_id TEXT,
+CREATE TABLE estimate_items (
+    estimate_item_id BIGSERIAL PRIMARY KEY,
+    estimate_id TEXT,
     merchant_id TEXT,
-    merchant_item_id TEXT
+    merchant_item_id TEXT,
+    quantity INT
 );
