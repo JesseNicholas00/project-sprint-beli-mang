@@ -79,20 +79,26 @@ func (mr *MockMerchantRepositoryMockRecorder) CreateMerchantItem(arg0, arg1 inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMerchantItem", reflect.TypeOf((*MockMerchantRepository)(nil).CreateMerchantItem), arg0, arg1)
 }
 
+// FindMerchantByFilter mocks base method.
+func (m *MockMerchantRepository) FindMerchantByFilter(arg0 context.Context, arg1 merchant.MerchantFilter) ([]merchant.Merchant, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindMerchantByFilter", arg0, arg1)
+	ret0, _ := ret[0].([]merchant.Merchant)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindMerchantByFilter indicates an expected call of FindMerchantByFilter.
+func (mr *MockMerchantRepositoryMockRecorder) FindMerchantByFilter(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMerchantByFilter", reflect.TypeOf((*MockMerchantRepository)(nil).FindMerchantByFilter), arg0, arg1)
+}
+
 // FindMerchantById mocks base method.
 func (m *MockMerchantRepository) FindMerchantById(arg0 context.Context, arg1 string) (merchant.Merchant, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindMerchantById", arg0, arg1)
 	ret0, _ := ret[0].(merchant.Merchant)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FindMerchantByFilters mocks base method.
-func (m *MockMerchantRepository) FindMerchantByFilter(arg0 context.Context, arg1 merchant.MerchantFilter) ([]merchant.Merchant, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindMerchantByFilter", arg0, arg1)
-	ret0, _ := ret[0].([]merchant.Merchant)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
