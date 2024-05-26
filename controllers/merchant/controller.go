@@ -15,6 +15,8 @@ type merchantController struct {
 func (mc *merchantController) Register(server *echo.Echo) error {
 	server.POST("/admin/merchants", mc.createMerchant, mc.authMw.Process)
 	server.POST("/admin/merchants/:merchantId/items", mc.createMerchantItems, mc.authMw.Process)
+	server.POST("/admin/merchants/:merchantId/items", mc.createMerchantItems, mc.authMw.Process)
+	server.GET("/merchants/nearby/:location", mc.findByFilters)
 	return nil
 }
 

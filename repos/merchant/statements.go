@@ -6,9 +6,10 @@ import (
 )
 
 type statements struct {
-	create     *sqlx.NamedStmt
-	createItem *sqlx.NamedStmt
-	findById   *sqlx.Stmt
+	create       *sqlx.NamedStmt
+	createItem   *sqlx.NamedStmt
+	findById     *sqlx.Stmt
+	findByFilter *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -45,13 +46,21 @@ func prepareStatements() statements {
 				:image_url
 			)
 		`),
-		findById: statementutil.MustPrepare(`
+		findByFilter: statementutil.MustPrepare(`
 			SELECT
 				* 
 			FROM
 				merchants
 			WHERE
 				merchant_id = $1
+		`),
+		findById: statementutil.MustPrepare(`
+			SELECT
+				* 
+			FROM
+				merchants
+            WHERE 
+                ST_DWithin(location::geography, ST_MakePoint($1, $2)::geography, 1000)
 		`),
 	}
 }

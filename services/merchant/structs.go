@@ -1,6 +1,10 @@
 package merchant
 
-import "github.com/JesseNicholas00/BeliMang/types/location"
+import (
+	"time"
+
+	"github.com/JesseNicholas00/BeliMang/types/location"
+)
 
 type CreateMerchantReq struct {
 	Name     string            `json:"name"             validate:"required,min=2,max=30"`
@@ -23,4 +27,40 @@ type CreateMerchantItemReq struct {
 
 type CreateMerchantItemRes struct {
 	ItemId string `json:"itemId"`
+}
+
+type Merchant struct {
+	MerchantId       string            `json:"merchantId"`
+	Name             string            `json:"name"`
+	MerchantCategory string            `json:"merchantCategory"`
+	ImageUrl         string            `json:"imageUrl"`
+	Location         location.Location `json:"location"`
+	CreatedAt        time.Time         `json:"createdAt"`
+}
+
+type Item struct {
+	ItemId          string    `json:"itemId"`
+	Name            string    `json:"name"`
+	ProductCategory string    `json:"productCategory"`
+	Price           int       `json:"price"`
+	ImageUrl        string    `json:"imageUrl"`
+	CreatedAt       time.Time `json:"createdAt"`
+}
+
+type MerchantAndItems struct {
+	Merchant Merchant `json:"merchant"`
+	Items    []Item   `json:"items"`
+}
+
+type FindMerchantReq struct {
+	LatLongSeparatedByCommaIdkWhyItsLikeThatButOk string  `param:"location"             validate:"required,min=3"`
+	MerchantId                                    *string `query:"merchantId"`
+	Name                                          *string `query:"name"`
+	MerchantCategory                              *string `query:"category"`
+	Limit                                         *int    `query:"limit"`
+	Offset                                        int     `query:"offset"`
+}
+
+type FindMerchantRes struct {
+	Data []MerchantAndItems `json:"data"`
 }

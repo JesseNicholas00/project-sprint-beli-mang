@@ -15,4 +15,9 @@ type MerchantService interface {
 		req CreateMerchantItemReq,
 		res *CreateMerchantItemRes,
 	) error
+	FindMerchantByFilter(
+		ctx context.Context,
+		req FindMerchantReq,
+		res *FindMerchantRes,
+	) error
 }

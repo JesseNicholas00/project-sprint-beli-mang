@@ -72,6 +72,15 @@ func (m *MockMerchantRepository) FindMerchantById(arg0 context.Context, arg1 str
 	return ret0, ret1
 }
 
+// FindMerchantByFilters mocks base method.
+func (m *MockMerchantRepository) FindMerchantByFilter(arg0 context.Context, arg1 merchant.MerchantFilter) ([]merchant.Merchant, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindMerchantByFilter", arg0, arg1)
+	ret0, _ := ret[0].([]merchant.Merchant)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
 // FindMerchantById indicates an expected call of FindMerchantById.
 func (mr *MockMerchantRepositoryMockRecorder) FindMerchantById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
