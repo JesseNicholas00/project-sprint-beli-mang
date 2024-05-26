@@ -14,6 +14,7 @@ type orderController struct {
 
 func (ctrl *orderController) Register(server *echo.Echo) error {
 	server.POST("/users/estimate", ctrl.estimateOrder, ctrl.authMw.Process)
+	server.GET("/users/orders", ctrl.orderHistory, ctrl.authMw.Process)
 	return nil
 }
 

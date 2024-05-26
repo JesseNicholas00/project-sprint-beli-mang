@@ -22,10 +22,6 @@ type MerchantAndItem struct {
 	MerchantItems []MerchantItem `json:"items"`
 }
 
-type Total struct {
-	Total int64 `db:"total"`
-}
-
 type AdminMerchantListFilter struct {
 	MerchantId       *string
 	Limit            int
@@ -33,6 +29,13 @@ type AdminMerchantListFilter struct {
 	Name             *string
 	MerchantCategory *string
 	CreatedAtSort    *string
+}
+
+type MerchantListAllFilter struct {
+	MerchantId       *string
+	MerchantIds      []string
+	Name             *string
+	MerchantCategory *string
 }
 
 type MerchantItem struct {

@@ -63,3 +63,19 @@ func (mr *MockOrderRepositoryMockRecorder) FindEstimateById(arg0, arg1 interface
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindEstimateById", reflect.TypeOf((*MockOrderRepository)(nil).FindEstimateById), arg0, arg1)
 }
+
+// ListOrderSummary mocks base method.
+func (m *MockOrderRepository) ListOrderSummary(arg0 context.Context, arg1 order.OrderSummaryListFilter) ([]order.OrderSummaryView, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListOrderSummary", arg0, arg1)
+	ret0, _ := ret[0].([]order.OrderSummaryView)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// ListOrderSummary indicates an expected call of ListOrderSummary.
+func (mr *MockOrderRepositoryMockRecorder) ListOrderSummary(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOrderSummary", reflect.TypeOf((*MockOrderRepository)(nil).ListOrderSummary), arg0, arg1)
+}

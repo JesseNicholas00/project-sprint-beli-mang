@@ -5,3 +5,7 @@ type Page struct {
 	Offset *int   `json:"offset"`
 	Total  *int64 `json:"total"`
 }
+
+type Total struct {
+	Total int64 `db:"total"`
+}

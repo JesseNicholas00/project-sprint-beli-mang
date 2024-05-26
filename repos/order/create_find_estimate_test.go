@@ -3,13 +3,14 @@ package order_test
 import (
 	"context"
 	"errors"
+	"testing"
+
 	"github.com/JesseNicholas00/BeliMang/repos/order"
 	. "github.com/smartystreets/goconvey/convey"
-	"testing"
 )
 
 func TestCreateAndFindEstimate(t *testing.T) {
-	repo := NewWithTestDatabase(t)
+	repo, _ := NewWithTestDatabase(t)
 	Convey("When attempting to retrieve a non-existent estimate", t, func() {
 		Convey("Should return err", func() {
 			_, err := repo.FindEstimateById(context.TODO(), "none")
