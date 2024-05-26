@@ -10,6 +10,8 @@ type statements struct {
 	createItem   *sqlx.NamedStmt
 	findById     *sqlx.Stmt
 	findByFilter *sqlx.Stmt
+	listByIds      *sqlx.Stmt
+	listItemsByIds *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -48,19 +50,39 @@ func prepareStatements() statements {
 		`),
 		findByFilter: statementutil.MustPrepare(`
 			SELECT
-				* 
+				merchant_id,
+				name,
+				category,
+				image_url,
+				ST_X(location::geometry) AS longitude,
+				ST_Y(location::geometry) AS latitude,
+				created_at 
 			FROM
 				merchants
 			WHERE
 				merchant_id = $1
 		`),
-		findById: statementutil.MustPrepare(`
+		listByIds: statementutil.MustPrepare(`
+			SELECT
+				merchant_id,
+				name,
+				category,
+				image_url,
+				ST_X(location::geometry) AS longitude,
+				ST_Y(location::geometry) AS latitude,
+				created_at 
+			FROM
+				merchants
+			WHERE
+				merchant_id = ANY ($1)
+		`),
+		listItemsByIds: statementutil.MustPrepare(`
 			SELECT
 				* 
 			FROM
-				merchants
-            WHERE 
-                ST_DWithin(location::geography, ST_MakePoint($1, $2)::geography, 1000)
+				merchant_items
+			WHERE
+				merchant_item_id = ANY ($1)
 		`),
 	}
 }

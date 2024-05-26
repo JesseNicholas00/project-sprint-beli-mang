@@ -3,7 +3,7 @@ CREATE TABLE merchant_items (
     merchant_id TEXT,
     name TEXT,
     category TEXT,
-    price INT,
+    price BIGINT,
     image_url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

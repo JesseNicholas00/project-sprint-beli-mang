@@ -35,6 +35,20 @@ func (m *MockMerchantService) EXPECT() *MockMerchantServiceMockRecorder {
 	return m.recorder
 }
 
+// AdminListMerchant mocks base method.
+func (m *MockMerchantService) AdminListMerchant(arg0 context.Context, arg1 merchant.AdminListMerchantReq, arg2 *merchant.AdminListMerchantRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AdminListMerchant", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AdminListMerchant indicates an expected call of AdminListMerchant.
+func (mr *MockMerchantServiceMockRecorder) AdminListMerchant(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdminListMerchant", reflect.TypeOf((*MockMerchantService)(nil).AdminListMerchant), arg0, arg1, arg2)
+}
+
 // CreateMerchant mocks base method.
 func (m *MockMerchantService) CreateMerchant(arg0 context.Context, arg1 merchant.CreateMerchantReq, arg2 *merchant.CreateMerchantRes) error {
 	m.ctrl.T.Helper()
