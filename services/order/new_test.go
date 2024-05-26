@@ -1,10 +1,11 @@
 package order
 
 import (
+	"testing"
+
 	"github.com/JesseNicholas00/BeliMang/services/order/mocks"
 	"github.com/JesseNicholas00/BeliMang/utils/ctxrizz"
 	"github.com/golang/mock/gomock"
-	"testing"
 )
 
 //go:generate mockgen -destination mocks/mock_order_repo.go -package mocks github.com/JesseNicholas00/BeliMang/repos/order OrderRepository

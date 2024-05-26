@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/JesseNicholas00/BeliMang/types/location"
-	"github.com/JesseNicholas00/BeliMang/types/location"
 	"github.com/JesseNicholas00/BeliMang/types/pagination"
 )
 
@@ -67,7 +66,7 @@ type Item struct {
 	ItemId          string    `json:"itemId"`
 	Name            string    `json:"name"`
 	ProductCategory string    `json:"productCategory"`
-	Price           int       `json:"price"`
+	Price           int64     `json:"price"`
 	ImageUrl        string    `json:"imageUrl"`
 	CreatedAt       time.Time `json:"createdAt"`
 }
