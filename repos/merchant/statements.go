@@ -6,10 +6,10 @@ import (
 )
 
 type statements struct {
-	create       *sqlx.NamedStmt
-	createItem   *sqlx.NamedStmt
-	findById     *sqlx.Stmt
-	findByFilter *sqlx.Stmt
+	create         *sqlx.NamedStmt
+	createItem     *sqlx.NamedStmt
+	findById       *sqlx.Stmt
+	findByFilter   *sqlx.Stmt
 	listByIds      *sqlx.Stmt
 	listItemsByIds *sqlx.Stmt
 }
@@ -48,7 +48,7 @@ func prepareStatements() statements {
 				:image_url
 			)
 		`),
-		findByFilter: statementutil.MustPrepare(`
+		findById: statementutil.MustPrepare(`
 			SELECT
 				merchant_id,
 				name,
