@@ -11,11 +11,11 @@ var merchantTypes = map[string]*struct{}{
 	"ConvenienceStore":      nil,
 }
 
-func validateCategoryImpl(s string) bool {
+var IsValidMerchantCategory = func(s string) bool {
 	_, ok := merchantTypes[s]
 	return ok
 }
 
 func ValidateCategory(fl validator.FieldLevel) bool {
-	return validateCategoryImpl(fl.Field().String())
+	return IsValidMerchantCategory(fl.Field().String())
 }

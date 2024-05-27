@@ -23,7 +23,6 @@ func (repo *merchantRepoImpl) FindMerchantById(
 	rows, err := sess.
 		Stmt(ctx, repo.statements.findById).
 		QueryxContext(ctx, merchantId)
-
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
