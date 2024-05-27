@@ -3,6 +3,7 @@ package merchant
 import (
 	"context"
 
+	"github.com/JesseNicholas00/BeliMang/types/pagination"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/mewsql"
 	"github.com/JesseNicholas00/BeliMang/utils/transaction"
@@ -39,14 +40,14 @@ func (lol *merchantRepoImpl) AdminListMerchant(ctx context.Context,
 		)
 	}
 
+	options := []mewsql.SelectOption{
+		mewsql.WithWhere(conditions...),
+	}
+
 	ctx, sess, err := lol.dbRizz.GetOrAppendTx(ctx)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
-	}
-
-	options := []mewsql.SelectOption{
-		mewsql.WithWhere(conditions...),
 	}
 
 	err = transaction.RunWithAutoCommit(&sess, func() error {
@@ -64,7 +65,7 @@ func (lol *merchantRepoImpl) AdminListMerchant(ctx context.Context,
 		defer countRows.Close()
 
 		for countRows.Next() {
-			var cur Total
+			var cur pagination.Total
 			if err = countRows.StructScan(&cur); err != nil {
 				return errorutil.AddCurrentContext(err)
 			}

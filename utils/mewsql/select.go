@@ -6,12 +6,19 @@ import (
 )
 
 const (
-	selectOptionWhere = iota
+	selectOptionJoin = iota
+	selectOptionWhere
 	selectOptionOrderBy
 	selectOptionLimit
 	selectOptionOffset
 
 	numSelectOptionKind
+)
+
+const (
+	InnerJoin = "JOIN"
+	LeftJoin  = "LEFT JOIN"
+	RightJoin = "RIGHT JOIN"
 )
 
 type SelectOption interface {
@@ -82,6 +89,13 @@ func WithOrderBy(expression string, ascDesc string) SelectOption {
 	}
 }
 
+func WithOrderByNearestLocation(expression string, lat float64, long float64) SelectOption {
+	return &genericSelectOptionImpl{
+		kind:      selectOptionOrderBy,
+		statement: fmt.Sprintf("ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326) ASC", expression, long, lat),
+	}
+}
+
 func WithLimit(count int) SelectOption {
 	return &genericSelectOptionImpl{
 		kind:      selectOptionLimit,
@@ -93,6 +107,17 @@ func WithOffset(count int) SelectOption {
 	return &genericSelectOptionImpl{
 		kind:      selectOptionOffset,
 		statement: fmt.Sprintf("OFFSET %d", count),
+	}
+}
+
+func WithJoin(joinType string, tableName string, condition string) SelectOption {
+	if joinType != InnerJoin && joinType != LeftJoin && joinType != RightJoin {
+		return nil
+	}
+
+	return &genericSelectOptionImpl{
+		kind:      selectOptionJoin,
+		statement: fmt.Sprintf("%s %s ON %s", joinType, tableName, condition),
 	}
 }
 

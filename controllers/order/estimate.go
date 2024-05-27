@@ -41,11 +41,11 @@ func (ctrl *orderController) estimateOrder(c echo.Context) error {
 				"message": "minimum distance traveled is too far",
 			})
 		case errors.Is(err, order.ErrMerchantNotFound):
-			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
 				"message": "merchant not found",
 			})
 		case errors.Is(err, order.ErrItemNotFound):
-			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
 				"message": "item not found",
 			})
 

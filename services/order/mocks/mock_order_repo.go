@@ -49,6 +49,20 @@ func (mr *MockOrderRepositoryMockRecorder) CreateEstimate(arg0, arg1 interface{}
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateEstimate", reflect.TypeOf((*MockOrderRepository)(nil).CreateEstimate), arg0, arg1)
 }
 
+// CreateOrder mocks base method.
+func (m *MockOrderRepository) CreateOrder(arg0 context.Context, arg1 order.Order) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateOrder", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateOrder indicates an expected call of CreateOrder.
+func (mr *MockOrderRepositoryMockRecorder) CreateOrder(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOrder", reflect.TypeOf((*MockOrderRepository)(nil).CreateOrder), arg0, arg1)
+}
+
 // FindEstimateById mocks base method.
 func (m *MockOrderRepository) FindEstimateById(arg0 context.Context, arg1 string) (order.Estimate, error) {
 	m.ctrl.T.Helper()
@@ -62,4 +76,19 @@ func (m *MockOrderRepository) FindEstimateById(arg0 context.Context, arg1 string
 func (mr *MockOrderRepositoryMockRecorder) FindEstimateById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindEstimateById", reflect.TypeOf((*MockOrderRepository)(nil).FindEstimateById), arg0, arg1)
+}
+
+// ListOrderSummary mocks base method.
+func (m *MockOrderRepository) ListOrderSummary(arg0 context.Context, arg1 order.OrderSummaryListFilter) ([]order.OrderSummaryView, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListOrderSummary", arg0, arg1)
+	ret0, _ := ret[0].([]order.OrderSummaryView)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListOrderSummary indicates an expected call of ListOrderSummary.
+func (mr *MockOrderRepositoryMockRecorder) ListOrderSummary(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOrderSummary", reflect.TypeOf((*MockOrderRepository)(nil).ListOrderSummary), arg0, arg1)
 }
