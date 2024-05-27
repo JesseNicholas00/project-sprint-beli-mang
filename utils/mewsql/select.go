@@ -92,7 +92,7 @@ func WithOrderBy(expression string, ascDesc string) SelectOption {
 func WithOrderByNearestLocation(expression string, lat float64, long float64) SelectOption {
 	return &genericSelectOptionImpl{
 		kind:      selectOptionOrderBy,
-		statement: fmt.Sprintf("ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326) ASC", expression, lat, long),
+		statement: fmt.Sprintf("ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326) ASC", expression, long, lat),
 	}
 }
 

@@ -9,7 +9,6 @@ type statements struct {
 	create         *sqlx.NamedStmt
 	createItem     *sqlx.NamedStmt
 	findById       *sqlx.Stmt
-	findByFilter   *sqlx.Stmt
 	listByIds      *sqlx.Stmt
 	listItemsByIds *sqlx.Stmt
 }

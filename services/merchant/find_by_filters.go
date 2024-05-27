@@ -2,13 +2,11 @@ package merchant
 
 import (
 	"context"
-	"strconv"
-	"strings"
 
 	"github.com/JesseNicholas00/BeliMang/repos/merchant"
 	"github.com/JesseNicholas00/BeliMang/types/location"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
-	"github.com/JesseNicholas00/BeliMang/utils/helper"
+	merchantCategory "github.com/JesseNicholas00/BeliMang/utils/validation/merchant"
 )
 
 func (svc *merchantServiceImpl) FindMerchantByFilter(
@@ -22,64 +20,42 @@ func (svc *merchantServiceImpl) FindMerchantByFilter(
 
 	var err error
 	if req.MerchantCategory != nil {
-		_, exists := svc.categories[*req.MerchantCategory]
+		validCategory := merchantCategory.IsValidMerchantCategory(*req.MerchantCategory)
 
-		if !exists {
+		if !validCategory {
 			res.Data = []MerchantAndItems{}
 			return err
 		}
 	}
 
-	fanum_tax := strings.Split(req.LatLongSeparatedByCommaIdkWhyItsLikeThatButOk, ",")
-	var fanum_tax_paid location.Location
-
-	if len(fanum_tax) == 2 {
-		fanum, err_fanum := strconv.ParseFloat(fanum_tax[0], 64)
-		if err_fanum != nil {
-			err = errorutil.AddCurrentContext(err_fanum)
-		}
-		tax, err_tax := strconv.ParseFloat(fanum_tax[0], 64)
-		if err_tax != nil {
-			err = errorutil.AddCurrentContext(err_tax)
-		}
-		fanum_tax_paid.Latitude = &fanum
-		fanum_tax_paid.Longitude = &tax
-	} else {
-		err = ErrLatLangNotValid
-		return err
-	}
-
-	if req.Limit == nil {
-		req.Limit = helper.ToPointer(5)
-	}
 	filter := merchant.MerchantFilter{
 		Name:             req.Name,
 		Limit:            *req.Limit,
 		Offset:           req.Offset,
 		MerchantCategory: req.MerchantCategory,
 		MerchantId:       req.MerchantId,
-		Location:         fanum_tax_paid,
+		Location:         req.Location,
 	}
 
 	merchants, err := svc.repo.FindMerchantByFilter(ctx, filter)
 
 	var kaiCenat []MerchantAndItems
 
-	for _, merchanta := range merchants {
+	for _, merchant := range merchants {
 		merch := Merchant{
-			MerchantId:       merchanta.Id,
-			Name:             merchanta.Name,
-			MerchantCategory: merchanta.Category,
-			ImageUrl:         merchanta.ImageUrl,
+			MerchantId:       merchant.Id,
+			Name:             merchant.Name,
+			MerchantCategory: merchant.Category,
+			ImageUrl:         merchant.ImageUrl,
 			Location: location.Location{
-				Latitude:  &merchanta.Latitude,
-				Longitude: &merchanta.Longitude,
+				Latitude:  &merchant.Latitude,
+				Longitude: &merchant.Longitude,
 			},
-			CreatedAt: merchanta.CreatedAt,
+			CreatedAt: merchant.CreatedAt,
 		}
 		var items []Item
 
-		for _, item := range merchanta.Items {
+		for _, item := range merchant.Items {
 			merchItem := Item{
 				ItemId:          item.Id,
 				Name:            item.Name,
