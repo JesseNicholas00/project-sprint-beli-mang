@@ -77,12 +77,13 @@ type MerchantAndItems struct {
 }
 
 type FindMerchantReq struct {
-	LatLongSeparatedByCommaIdkWhyItsLikeThatButOk string  `param:"location"             validate:"required,min=3"`
+	LatLongSeparatedByCommaIdkWhyItsLikeThatButOk string  `param:"location"              validate:"required,min=3"`
 	MerchantId                                    *string `query:"merchantId"`
 	Name                                          *string `query:"name"`
 	MerchantCategory                              *string `query:"category"`
 	Limit                                         *int    `query:"limit"`
 	Offset                                        int     `query:"offset"`
+	Location                                      location.GyattLocation
 }
 
 type FindMerchantRes struct {

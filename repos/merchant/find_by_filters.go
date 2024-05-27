@@ -2,15 +2,37 @@ package merchant
 
 import (
 	"context"
+	"time"
 
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/mewsql"
 )
 
+type MerchantItem struct {
+	Id         string    `db:"item_id"`
+	MerchantId string    `db:"item_merchant_id"`
+	Name       string    `db:"item_name"`
+	Category   string    `db:"item_category"`
+	Price      int64     `db:"item_price"`
+	ImageUrl   string    `db:"item_image_url"`
+	CreatedAt  time.Time `db:"item_created_at"`
+}
+
+type MerchantWithItems struct {
+	Id        string    `db:"merchant_id"`
+	Name      string    `db:"merchant_name"`
+	Category  string    `db:"merchant_category"`
+	ImageUrl  string    `db:"merchant_image_url"`
+	Latitude  float64   `db:"latitude"`
+	Longitude float64   `db:"longitude"`
+	CreatedAt time.Time `db:"merchant_created_at"`
+	Items     []MerchantItem
+}
+
 func (repo *merchantRepoImpl) FindMerchantByFilter(
 	ctx context.Context,
 	filter MerchantFilter,
-) (res []Merchant, err error) {
+) (res []MerchantWithItems, err error) {
 	if err = ctx.Err(); err != nil {
 		return
 	}
@@ -57,17 +79,17 @@ func (repo *merchantRepoImpl) FindMerchantByFilter(
 	sql, args := mewsql.Select(
 		`
             m.merchant_id as merchant_id, 
-            m.name as merchant_name, 
-            m.category as merchant_category, 
-            m.image_url as merchant_url, 
+            m.name as name, 
+            m.category as category, 
+            m.image_url as image_url, 
             ST_Y(m.location::geometry) as latitude, 
             ST_X(m.location::geometry) as longitude,
-            m.created_at merchant_created_at, 
+            m.created_at created_at, 
             mi.merchant_item_id as item_id, 
             mi.name as item_name, 
             mi.category as item_category, 
             mi.price as item_price, 
-            mi.image_url as item_url, 
+            mi.image_url as item_image_url, 
             mi.created_at as item_created_at
         `,
 		"merchants m",
@@ -85,45 +107,42 @@ func (repo *merchantRepoImpl) FindMerchantByFilter(
 		err = errorutil.AddCurrentContext(err)
 		return
 	}
-	defer rows.Close()
 
-	merchantMap := make(map[string]*Merchant)
+	merchantMap := make(map[string]MerchantWithItems)
 	for rows.Next() {
-		var merchantID string
-		var item MerchantItem
-		var merchant Merchant
 
-		err := rows.Scan(
-			&merchantID,
-			&merchant.Name,
-			&merchant.Category,
-			&merchant.ImageUrl,
-			&merchant.Latitude,
-			&merchant.Longitude,
-			&merchant.CreatedAt,
-			&item.Id,
-			&item.Name,
-			&item.Category,
-			&item.Price,
-			&item.ImageUrl,
-			&item.CreatedAt,
-		)
+		var dbRes struct {
+			Merchant
+			MerchantItem
+		}
+		err := rows.StructScan(&dbRes)
 		if err != nil {
 			err = errorutil.AddCurrentContext(err)
 		}
 
-		if _, exists := merchantMap[merchantID]; !exists {
-			merchant.Id = merchantID
-			merchantMap[merchantID] = &merchant
+		var merchant MerchantWithItems
+		if _, exists := merchantMap[dbRes.Merchant.Id]; !exists {
+			merchantMap[dbRes.Merchant.Id] = MerchantWithItems{
+				Id:        dbRes.Merchant.Id,
+				Name:      dbRes.Merchant.Name,
+				Category:  dbRes.Merchant.Category,
+				ImageUrl:  dbRes.Merchant.ImageUrl,
+				Latitude:  dbRes.Merchant.Latitude,
+				Longitude: dbRes.Merchant.Longitude,
+				CreatedAt: dbRes.Merchant.CreatedAt,
+				Items:     []MerchantItem{},
+			}
 		}
 
-		if item.Id != "" {
-			merchantMap[merchantID].Items = append(merchantMap[merchantID].Items, item)
+		if dbRes.MerchantItem.Id != "" {
+			merchant = merchantMap[dbRes.Merchant.Id]
+			merchant.Items = append(merchant.Items, dbRes.MerchantItem)
+			merchantMap[merchant.Id] = merchant
 		}
 	}
 
 	for _, merchant := range merchantMap {
-		res = append(res, *merchant)
+		res = append(res, merchant)
 	}
 	return
 }
