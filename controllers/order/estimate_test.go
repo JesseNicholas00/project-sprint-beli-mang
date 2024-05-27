@@ -190,13 +190,13 @@ func TestEstimateOrder(t *testing.T) {
 			Convey("When merchant is not found", func() {
 				Convey("Should return http code 404", func() {
 					rec := callWithResponse(order.ErrMerchantNotFound, nil)
-					So(rec.Code, ShouldEqual, http.StatusBadRequest)
+					So(rec.Code, ShouldEqual, http.StatusNotFound)
 				})
 			})
 			Convey("When item is not found", func() {
 				Convey("Should return http code 404", func() {
 					rec := callWithResponse(order.ErrItemNotFound, nil)
-					So(rec.Code, ShouldEqual, http.StatusBadRequest)
+					So(rec.Code, ShouldEqual, http.StatusNotFound)
 				})
 			})
 			Convey("When all is good", func() {
