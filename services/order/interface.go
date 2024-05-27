@@ -8,4 +8,9 @@ type OrderService interface {
 		req EstimateOrderReq,
 		res *EstimateOrderRes,
 	) error
+	OrderHistory(
+		ctx context.Context,
+		req OrderHistoryReq,
+		res *OrderHistoryRes,
+	) error
 }
