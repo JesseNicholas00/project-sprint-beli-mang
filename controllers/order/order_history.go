@@ -30,10 +30,7 @@ func (ctrl *orderController) orderHistory(c echo.Context) error {
 	err := ctrl.service.OrderHistory(c.Request().Context(), req, &res)
 
 	if err != nil {
-		switch {
-		default:
-			return errorutil.AddCurrentContext(err)
-		}
+		return errorutil.AddCurrentContext(err)
 	}
 
 	return c.JSON(http.StatusOK, res.Result)

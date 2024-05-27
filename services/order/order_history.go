@@ -106,7 +106,7 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 							Price:           summary.ItemPrice,
 							Quantity:        summary.Quantity,
 							ImageUrl:        summary.ItemImageURL,
-							CreatedAt:       summary.ItemCreatedAt,
+							CreatedAt:       summary.ItemCreatedAt.Format(time.RFC3339Nano),
 						},
 					)
 				}

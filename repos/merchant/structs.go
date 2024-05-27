@@ -50,3 +50,24 @@ type MerchantItem struct {
 	ImageUrl   string    `db:"image_url"`
 	CreatedAt  time.Time `db:"created_at"`
 }
+
+type MerchantItemDetail struct {
+	Id         string    `db:"item_id"`
+	MerchantId string    `db:"item_merchant_id"`
+	Name       string    `db:"item_name"`
+	Category   string    `db:"item_category"`
+	Price      int64     `db:"item_price"`
+	ImageUrl   string    `db:"item_image_url"`
+	CreatedAt  time.Time `db:"item_created_at"`
+}
+
+type MerchantWithItems struct {
+	Id        string    `db:"merchant_id"`
+	Name      string    `db:"merchant_name"`
+	Category  string    `db:"merchant_category"`
+	ImageUrl  string    `db:"merchant_image_url"`
+	Latitude  float64   `db:"latitude"`
+	Longitude float64   `db:"longitude"`
+	CreatedAt time.Time `db:"merchant_created_at"`
+	Items     []MerchantItemDetail
+}
