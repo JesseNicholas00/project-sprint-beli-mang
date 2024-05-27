@@ -80,7 +80,13 @@ func (mr *MockMerchantServiceMockRecorder) CreateMerchantItem(arg0, arg1, arg2 i
 // FindMerchantByFilter mocks base method.
 func (m *MockMerchantService) FindMerchantByFilter(arg0 context.Context, arg1 merchant.FindMerchantReq, arg2 *merchant.FindMerchantRes) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateMerchant", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "FindMerchantByFilter", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
+}
+
+// FindMerchantByFilter indicates an expected call of FindMerchantByFilter.
+func (mr *MockMerchantServiceMockRecorder) FindMerchantByFilter(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMerchantByFilter", reflect.TypeOf((*MockMerchantService)(nil).FindMerchantByFilter), arg0, arg1, arg2)
 }

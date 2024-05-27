@@ -8,6 +8,10 @@ type MerchantRepository interface {
 		ctx context.Context,
 		filters AdminMerchantListFilter,
 	) (res []Merchant, total int64, err error)
+	ListAllMerchant(
+		ctx context.Context,
+		filters MerchantListAllFilter,
+	) (res []Merchant, err error)
 	CreateMerchantItem(ctx context.Context, mi MerchantItem) error
 	FindMerchantById(ctx context.Context, merchantId string) (Merchant, error)
 	FindMerchantByFilter(
