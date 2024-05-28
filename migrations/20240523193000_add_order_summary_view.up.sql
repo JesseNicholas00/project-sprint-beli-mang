@@ -6,7 +6,7 @@ SELECT
     e.user_id,
     ei.estimate_item_id,
     ei.quantity,
-    mi.merchant_id,
+    ei.merchant_id,
     mi.merchant_item_id,
     mi.name AS item_name,
     mi.category AS item_category,
