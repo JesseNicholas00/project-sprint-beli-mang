@@ -80,10 +80,10 @@ func (mr *MockMerchantRepositoryMockRecorder) CreateMerchantItem(arg0, arg1 inte
 }
 
 // FindMerchantByFilter mocks base method.
-func (m *MockMerchantRepository) FindMerchantByFilter(arg0 context.Context, arg1 merchant.MerchantFilter) ([]merchant.Merchant, error) {
+func (m *MockMerchantRepository) FindMerchantByFilter(arg0 context.Context, arg1 merchant.MerchantFilter) ([]merchant.MerchantWithItems, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindMerchantByFilter", arg0, arg1)
-	ret0, _ := ret[0].([]merchant.Merchant)
+	ret0, _ := ret[0].([]merchant.MerchantWithItems)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
