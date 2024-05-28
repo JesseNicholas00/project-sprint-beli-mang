@@ -1,12 +1,15 @@
 package auth
 
-import "github.com/golang-jwt/jwt/v4"
+import (
+	"github.com/JesseNicholas00/BeliMang/types/role"
+	"github.com/golang-jwt/jwt/v4"
+)
 
 type RegisterUserReq struct {
 	Username string `json:"username" validate:"required,min=5,max=30"`
 	Password string `json:"password" validate:"required,min=5,max=30"`
 	Email    string `json:"email"    validate:"required,email"`
-	Role     string `                validate:"required,oneof=admin user" param:"role"`
+	Role     role.Role
 }
 
 type RegisterUserRes struct {
@@ -16,7 +19,7 @@ type RegisterUserRes struct {
 type LoginUserReq struct {
 	Username string `json:"username" validate:"required,min=5,max=30"`
 	Password string `json:"password" validate:"required,min=5,max=30"`
-	Role     string `                validate:"required,oneof=admin user" param:"role"`
+	Role     role.Role
 }
 
 type LoginUserRes struct {
@@ -28,13 +31,13 @@ type GetSessionFromTokenReq struct {
 }
 
 type GetSessionFromTokenRes struct {
-	UserId  string
-	IsAdmin bool
+	UserId string
+	Role   role.Role
 }
 
 type jwtSubClaims struct {
-	UserId  string `json:"userId"`
-	IsAdmin bool   `json:"is_admin"`
+	UserId string    `json:"userId"`
+	Role   role.Role `json:"role"`
 }
 
 type jwtClaims struct {

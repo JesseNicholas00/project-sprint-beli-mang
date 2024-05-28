@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 	"github.com/golang/mock/gomock"
@@ -21,7 +22,6 @@ func TestLoginValid(t *testing.T) {
 		username := "username"
 		password := "password"
 		accessToken := "token"
-		role := "user"
 
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
@@ -32,16 +32,13 @@ func TestLoginValid(t *testing.T) {
 				"username": username,
 				"password": password,
 			}),
-			unittesting.WithPathParams(map[string]string{
-				"role": role,
-			}),
 		)
 
 		Convey("Should forward the request to the service layer", func() {
 			expectedReq := auth.LoginUserReq{
 				Username: username,
 				Password: password,
-				Role:     role,
+				Role:     role.User,
 			}
 			expectedRes := auth.LoginUserRes{
 				AccessToken: accessToken,
@@ -56,7 +53,7 @@ func TestLoginValid(t *testing.T) {
 				Return(nil).
 				Times(1)
 
-			unittesting.CallController(ctx, controller.loginUser)
+			unittesting.CallControllerWithRole(ctx, controller.loginUser, role.User)
 
 			Convey(
 				"Should return the expected response with HTTP 200",
@@ -86,7 +83,6 @@ func TestLoginInvalid(t *testing.T) {
 			// username length too short
 			username := "user"
 			password := "password"
-			role := "user"
 
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
@@ -97,20 +93,16 @@ func TestLoginInvalid(t *testing.T) {
 					"username": username,
 					"password": password,
 				}),
-				unittesting.WithPathParams(map[string]string{
-					"role": role,
-				}),
 			)
 
 			Convey("Should return HTTP code 400", func() {
-				unittesting.CallController(ctx, controller.loginUser)
+				unittesting.CallControllerWithRole(ctx, controller.loginUser, role.User)
 				So(rec.Code, ShouldEqual, http.StatusBadRequest)
 			})
 		})
 
 		username := "username"
 		password := "password"
-		role := "user"
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
 			http.MethodPost,
@@ -120,15 +112,12 @@ func TestLoginInvalid(t *testing.T) {
 				"username": username,
 				"password": password,
 			}),
-			unittesting.WithPathParams(map[string]string{
-				"role": role,
-			}),
 		)
 
 		expectedReq := auth.LoginUserReq{
 			Username: username,
 			Password: password,
-			Role:     role,
+			Role:     role.User,
 		}
 
 		Convey("On user not found", func() {
@@ -141,7 +130,7 @@ func TestLoginInvalid(t *testing.T) {
 			Convey(
 				"Should return HTTP code 400",
 				func() {
-					unittesting.CallController(ctx, controller.loginUser)
+					unittesting.CallControllerWithRole(ctx, controller.loginUser, role.User)
 					So(rec.Code, ShouldEqual, http.StatusBadRequest)
 				},
 			)
@@ -157,7 +146,7 @@ func TestLoginInvalid(t *testing.T) {
 			Convey(
 				"Should return HTTP code 400",
 				func() {
-					unittesting.CallController(ctx, controller.loginUser)
+					unittesting.CallControllerWithRole(ctx, controller.loginUser, role.User)
 					So(rec.Code, ShouldEqual, http.StatusBadRequest)
 				},
 			)

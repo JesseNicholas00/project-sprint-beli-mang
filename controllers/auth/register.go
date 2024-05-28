@@ -5,16 +5,18 @@ import (
 	"net/http"
 
 	"github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/request"
 	"github.com/labstack/echo/v4"
 )
 
-func (ctrl *authController) registerUser(c echo.Context) error {
+func (ctrl *authController) registerUser(c echo.Context, role role.Role) error {
 	var req auth.RegisterUserReq
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
+	req.Role = role
 
 	var res auth.RegisterUserRes
 	if err := ctrl.service.RegisterUser(

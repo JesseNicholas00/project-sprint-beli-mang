@@ -2,15 +2,17 @@ package order
 
 import (
 	"context"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/JesseNicholas00/BeliMang/services/auth"
 	"github.com/JesseNicholas00/BeliMang/services/order"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 type itemReq struct {
@@ -106,8 +108,8 @@ func TestEstimateOrder(t *testing.T) {
 				}),
 			)
 			ctx.Set("session", auth.GetSessionFromTokenRes{
-				UserId:  "henry",
-				IsAdmin: false,
+				UserId: "henry",
+				Role:   role.User,
 			})
 			unittesting.CallController(ctx, controller.estimateOrder)
 			return rec

@@ -69,7 +69,7 @@ func (mw *authMiddleware) Process(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 		}
 
-		if !slices.Contains(mw.allowedRoles, role.GetRole(res.IsAdmin)) {
+		if !slices.Contains(mw.allowedRoles, res.Role) {
 			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
 				"message": "incorrect user role",
 			})

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/services/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"github.com/JesseNicholas00/BeliMang/utils/unittesting"
 	"github.com/golang/mock/gomock"
@@ -22,7 +23,6 @@ func TestRegisterValid(t *testing.T) {
 		email := "jn@gmail.com"
 		password := "password"
 		accessToken := "token"
-		role := "admin"
 
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
@@ -34,9 +34,6 @@ func TestRegisterValid(t *testing.T) {
 				"email":    email,
 				"password": password,
 			}),
-			unittesting.WithPathParams(map[string]string{
-				"role": "admin",
-			}),
 		)
 
 		Convey("Should forward the request to the service layer", func() {
@@ -44,7 +41,7 @@ func TestRegisterValid(t *testing.T) {
 				Username: username,
 				Email:    email,
 				Password: password,
-				Role:     role,
+				Role:     role.Admin,
 			}
 			expectedRes := auth.RegisterUserRes{
 				AccessToken: accessToken,
@@ -59,7 +56,7 @@ func TestRegisterValid(t *testing.T) {
 				Return(nil).
 				Times(1)
 
-			unittesting.CallController(ctx, controller.registerUser)
+			unittesting.CallControllerWithRole(ctx, controller.registerUser, role.Admin)
 
 			Convey(
 				"Should return the expected response with HTTP 201",
@@ -87,7 +84,6 @@ func TestRegisterInvalid(t *testing.T) {
 		username := "username"
 		email := "jn@gmail.com"
 		password := "password"
-		role := "admin"
 
 		Convey("On invalid request", func() {
 			phoneNumber := "+1-2468123123123"
@@ -106,7 +102,7 @@ func TestRegisterInvalid(t *testing.T) {
 			)
 
 			Convey("Should return HTTP code 400", func() {
-				unittesting.CallController(ctx, controller.registerUser)
+				unittesting.CallControllerWithRole(ctx, controller.registerUser, role.Admin)
 				So(rec.Code, ShouldEqual, http.StatusBadRequest)
 			})
 		})
@@ -132,7 +128,7 @@ func TestRegisterInvalid(t *testing.T) {
 					Username: username,
 					Email:    email,
 					Password: password,
-					Role:     role,
+					Role:     role.Admin,
 				}
 
 				service.EXPECT().
@@ -140,7 +136,7 @@ func TestRegisterInvalid(t *testing.T) {
 					Return(auth.ErrUsernameAlreadyRegistered).
 					Times(1)
 
-				unittesting.CallController(ctx, controller.registerUser)
+				unittesting.CallControllerWithRole(ctx, controller.registerUser, role.Admin)
 				So(rec.Code, ShouldEqual, http.StatusConflict)
 			})
 		})

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
@@ -28,10 +29,10 @@ func (svc *authServiceImpl) LoginUser(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	if !user.IsAdmin && req.Role == "admin" {
+	if !user.IsAdmin && req.Role == role.Admin {
 		return ErrUserNotFound
 	}
-	if user.IsAdmin && req.Role == "user" {
+	if user.IsAdmin && req.Role == role.User {
 		return ErrUserNotFound
 	}
 

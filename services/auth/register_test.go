@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -19,6 +20,7 @@ func TestRegisterUser(t *testing.T) {
 			Username: "+6281234567890",
 			Password: "password",
 			Email:    "jn@gmail.com",
+			Role:     role.Admin,
 		}
 
 		repoReq := auth.User{
