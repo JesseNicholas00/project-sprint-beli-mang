@@ -45,7 +45,9 @@ func Select(
 
 	var sqlBufferString []string
 	for _, buf := range sqlBuffer {
-		sqlBufferString = append(sqlBufferString, buf.String())
+		if s := buf.String(); len(s) > 0 {
+			sqlBufferString = append(sqlBufferString, buf.String())
+		}
 	}
 
 	sql = fmt.Sprintf(
@@ -91,8 +93,13 @@ func WithOrderBy(expression string, ascDesc string) SelectOption {
 
 func WithOrderByNearestLocation(expression string, lat float64, long float64) SelectOption {
 	return &genericSelectOptionImpl{
-		kind:      selectOptionOrderBy,
-		statement: fmt.Sprintf("ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326) ASC", expression, long, lat),
+		kind: selectOptionOrderBy,
+		statement: fmt.Sprintf(
+			"ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326) ASC",
+			expression,
+			long,
+			lat,
+		),
 	}
 }
 

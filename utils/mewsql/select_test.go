@@ -34,7 +34,7 @@ func TestSelect(t *testing.T) {
 			So(
 				sql,
 				ShouldEqual,
-				"SELECT product_id, product_name FROM products  WHERE (product_id = $1 AND product_name ILIKE $2 AND product_sku = $3 AND DIST(product_pos, Point($4, $5)) < $6) ORDER BY created_at ASC LIMIT 5 OFFSET 0",
+				"SELECT product_id, product_name FROM products WHERE (product_id = $1 AND product_name ILIKE $2 AND product_sku = $3 AND DIST(product_pos, Point($4, $5)) < $6) ORDER BY created_at ASC LIMIT 5 OFFSET 0",
 			)
 			So(vars, ShouldHaveLength, 6)
 			So(vars[0], ShouldEqual, "turbo-gyatt-001")
@@ -67,7 +67,7 @@ func TestSelect(t *testing.T) {
 			So(
 				sql,
 				ShouldEqual,
-				`SELECT * FROM users  WHERE ((user_id = $1 OR user_name = $2) AND (user_is_gamer = $3 OR user_name = "epic")) ORDER BY created_at ASC LIMIT 5 OFFSET 0`,
+				`SELECT * FROM users WHERE ((user_id = $1 OR user_name = $2) AND (user_is_gamer = $3 OR user_name = "epic")) ORDER BY created_at ASC LIMIT 5 OFFSET 0`,
 			)
 			So(vars, ShouldHaveLength, 3)
 			So(vars[0], ShouldEqual, "turbo-gyatt-001")
