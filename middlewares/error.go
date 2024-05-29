@@ -11,13 +11,14 @@ import (
 )
 
 type loggingErrorHandlerMiddleware struct {
+	ShowErrorContent bool
 }
 
 var errorHandlerLogger = logging.GetLogger(
 	"unhandledError",
 )
 
-func (*loggingErrorHandlerMiddleware) Process(
+func (mwHandler *loggingErrorHandlerMiddleware) Process(
 	next echo.HandlerFunc,
 ) echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -28,6 +29,9 @@ func (*loggingErrorHandlerMiddleware) Process(
 
 		// most errors should return here
 		if err, ok := err.(*echo.HTTPError); ok {
+			if mwHandler.ShowErrorContent {
+				return c.NoContent(err.Code)
+			}
 			return c.JSON(err.Code, err.Message)
 		}
 
@@ -45,13 +49,11 @@ func (*loggingErrorHandlerMiddleware) Process(
 			"trace",
 			fmt.Errorf("\n%w", err),
 		)
-		return c.JSON(http.StatusInternalServerError, echo.Map{
-			"message": "internal server error",
-		})
+		return c.NoContent(http.StatusInternalServerError)
 	}
 }
 
 // # Make sure this is the first middleware in the stack!
-func NewLoggingErrorHandlerMiddleware() Middleware {
-	return &loggingErrorHandlerMiddleware{}
+func NewLoggingErrorHandlerMiddleware(ShowErrorContent bool) Middleware {
+	return &loggingErrorHandlerMiddleware{ShowErrorContent: ShowErrorContent}
 }

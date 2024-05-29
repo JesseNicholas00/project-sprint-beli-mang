@@ -32,6 +32,8 @@ type ServerConfig struct {
 
 	traceSlowEndpoints bool
 	slowThreshold      time.Duration
+
+	showErrorContent bool
 }
 
 func loadConfig() (cfg ServerConfig, err error) {
@@ -92,6 +94,8 @@ func loadConfig() (cfg ServerConfig, err error) {
 	cfg.slowThreshold = time.Duration(
 		conf.GetInt64("SLOW_ENDPOINT_THRESHOLD_MS"),
 	) * time.Millisecond
+
+	cfg.showErrorContent = conf.GetBool("SHOW_ERROR_CONTENT")
 
 	return
 }

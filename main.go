@@ -95,7 +95,7 @@ func main() {
 		server.Use(slowLogger.Process)
 	}
 
-	errorHandler := middlewares.NewLoggingErrorHandlerMiddleware()
+	errorHandler := middlewares.NewLoggingErrorHandlerMiddleware(cfg.showErrorContent)
 	server.Use(errorHandler.Process)
 
 	for idx, controller := range controllers {
