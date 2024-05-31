@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/golang-jwt/jwt/v4"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -36,7 +37,7 @@ func TestGenerateToken(t *testing.T) {
 
 				So(err, ShouldBeNil)
 				So(claims.Data.UserId, ShouldEqual, user.Id)
-				So(claims.Data.IsAdmin, ShouldEqual, user.IsAdmin)
+				So(role.ToBoolean(claims.Data.Role), ShouldEqual, user.IsAdmin)
 			},
 		)
 	})

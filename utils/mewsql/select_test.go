@@ -1,8 +1,9 @@
 package mewsql_test
 
 import (
-	"github.com/JesseNicholas00/BeliMang/utils/helper"
 	"testing"
+
+	"github.com/JesseNicholas00/BeliMang/utils/helper"
 
 	"github.com/JesseNicholas00/BeliMang/utils/mewsql"
 	. "github.com/smartystreets/goconvey/convey"

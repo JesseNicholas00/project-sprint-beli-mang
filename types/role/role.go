@@ -1,10 +1,10 @@
 package role
 
-type Role string
+type Role int
 
 const (
-	Admin = "admin"
-	User  = "user"
+	Admin = iota
+	User
 )
 
 func GetRole(isAdmin bool) Role {
@@ -12,4 +12,8 @@ func GetRole(isAdmin bool) Role {
 		return Admin
 	}
 	return User
+}
+
+func ToBoolean(role Role) bool {
+	return role == Admin
 }

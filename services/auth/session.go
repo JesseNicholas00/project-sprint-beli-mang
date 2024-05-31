@@ -43,8 +43,8 @@ func (svc *authServiceImpl) GetSessionFromToken(
 	}
 
 	*res = GetSessionFromTokenRes{
-		UserId:  claims.Data.UserId,
-		IsAdmin: claims.Data.IsAdmin,
+		UserId: claims.Data.UserId,
+		Role:   claims.Data.Role,
 	}
 
 	return nil

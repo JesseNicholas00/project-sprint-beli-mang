@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
 	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 	"github.com/google/uuid"
@@ -38,7 +39,7 @@ func (svc *authServiceImpl) RegisterUser(
 			return errorutil.AddCurrentContext(err)
 		}
 
-		_, err = svc.repo.FindUserByEmailAndIsAdmin(ctx, req.Email, req.Role == "admin")
+		_, err = svc.repo.FindUserByEmailAndIsAdmin(ctx, req.Email, req.Role != role.Admin)
 
 		if err == nil {
 			return ErrEmailAlreadyRegistered
@@ -62,7 +63,7 @@ func (svc *authServiceImpl) RegisterUser(
 			Username: req.Username,
 			Email:    req.Email,
 			Password: string(cryptedPw),
-			IsAdmin:  req.Role == "admin",
+			IsAdmin:  role.ToBoolean(req.Role),
 		})
 		if err != nil {
 			return errorutil.AddCurrentContext(err)

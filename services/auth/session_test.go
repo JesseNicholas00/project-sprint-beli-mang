@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/JesseNicholas00/BeliMang/repos/auth"
+	"github.com/JesseNicholas00/BeliMang/types/role"
 	"github.com/golang-jwt/jwt/v4"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -35,7 +36,7 @@ func TestGetSessionFromToken(t *testing.T) {
 
 				So(err, ShouldBeNil)
 				So(res.UserId, ShouldEqual, user.Id)
-				So(res.IsAdmin, ShouldEqual, user.IsAdmin)
+				So(role.ToBoolean(res.Role), ShouldEqual, user.IsAdmin)
 			})
 		})
 
@@ -61,8 +62,8 @@ func TestGetSessionFromToken(t *testing.T) {
 					),
 				},
 				Data: jwtSubClaims{
-					UserId:  user.Id,
-					IsAdmin: true,
+					UserId: user.Id,
+					Role:   role.Admin,
 				},
 			})
 			res, err := token.SignedString(service.jwtSecret)
