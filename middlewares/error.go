@@ -29,7 +29,7 @@ func (mwHandler *loggingErrorHandlerMiddleware) Process(
 
 		// most errors should return here
 		if err, ok := err.(*echo.HTTPError); ok {
-			if mwHandler.ShowErrorContent {
+			if !mwHandler.ShowErrorContent {
 				return c.NoContent(err.Code)
 			}
 			return c.JSON(err.Code, err.Message)
@@ -54,6 +54,6 @@ func (mwHandler *loggingErrorHandlerMiddleware) Process(
 }
 
 // # Make sure this is the first middleware in the stack!
-func NewLoggingErrorHandlerMiddleware(ShowErrorContent bool) Middleware {
-	return &loggingErrorHandlerMiddleware{ShowErrorContent: ShowErrorContent}
+func NewLoggingErrorHandlerMiddleware(showErrorContent bool) Middleware {
+	return &loggingErrorHandlerMiddleware{ShowErrorContent: showErrorContent}
 }
