@@ -81,6 +81,11 @@ func (lol *merchantRepoImpl) AdminListMerchant(ctx context.Context,
 				options,
 				mewsql.WithOrderBy("created_at", *filter.CreatedAtSort),
 			)
+		} else {
+			options = append(
+				options,
+				mewsql.WithOrderBy("created_at", "desc"),
+			)
 		}
 
 		sql, args := mewsql.Select(
