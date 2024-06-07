@@ -26,7 +26,7 @@ func TestLoginValid(t *testing.T) {
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
 			http.MethodPost,
-			"/user/login",
+			"/users/login",
 			rec,
 			unittesting.WithJsonPayload(map[string]interface{}{
 				"username": username,
@@ -87,7 +87,7 @@ func TestLoginInvalid(t *testing.T) {
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
 				http.MethodPost,
-				"/user/login",
+				"/users/login",
 				rec,
 				unittesting.WithJsonPayload(map[string]interface{}{
 					"username": username,
@@ -106,7 +106,7 @@ func TestLoginInvalid(t *testing.T) {
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
 			http.MethodPost,
-			"/user/login",
+			"/users/login",
 			rec,
 			unittesting.WithJsonPayload(map[string]interface{}{
 				"username": username,

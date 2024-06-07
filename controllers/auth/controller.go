@@ -18,10 +18,10 @@ func (s *authController) Register(server *echo.Echo) error {
 	server.POST("/admin/login", func(c echo.Context) error {
 		return s.loginUser(c, role.Admin)
 	})
-	server.POST("/user/register", func(c echo.Context) error {
+	server.POST("/users/register", func(c echo.Context) error {
 		return s.registerUser(c, role.User)
 	})
-	server.POST("/user/login", func(c echo.Context) error {
+	server.POST("/users/login", func(c echo.Context) error {
 		return s.loginUser(c, role.User)
 	})
 	return nil
