@@ -59,6 +59,7 @@ func initControllers(
 	merchantController := merchantCtrl.NewMerchantController(
 		merchantService,
 		adminMw,
+		userMw,
 	)
 	ctrls = append(ctrls, merchantController)
 

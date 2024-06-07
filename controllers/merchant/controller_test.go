@@ -22,6 +22,7 @@ func NewControllerWithMockedService(t *testing.T) (
 	controller = NewMerchantController(
 		mockedService,
 		middlewares.NewNoopMiddleware(),
+		middlewares.NewNoopMiddleware(),
 	).(*merchantController)
 	return
 }
