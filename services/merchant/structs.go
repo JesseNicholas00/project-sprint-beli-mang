@@ -77,15 +77,38 @@ type MerchantAndItems struct {
 }
 
 type FindMerchantReq struct {
-	LatLongSeparatedByCommaIdkWhyItsLikeThatButOk string  `param:"location"              validate:"required,min=3"`
-	MerchantId                                    *string `query:"merchantId"`
-	Name                                          *string `query:"name"`
-	MerchantCategory                              *string `query:"category"`
-	Limit                                         *int    `query:"limit"`
-	Offset                                        int     `query:"offset"`
+	LatLongSeparatedByCommaIdkWhyItsLikeThatButOk string  `param:"location" validate:"required,min=3"`
+	MerchantId                                    *string `                                           query:"merchantId"`
+	Name                                          *string `                                           query:"name"`
+	MerchantCategory                              *string `                                           query:"category"`
+	Limit                                         *int    `                                           query:"limit"`
+	Offset                                        int     `                                           query:"offset"`
 	Location                                      location.GyattLocation
 }
 
 type FindMerchantRes struct {
 	Data []MerchantAndItems `json:"data"`
+}
+
+type MerchantItemListReq struct {
+	MerchantItemId *string `query:"itemId"`
+	Limit          *int    `query:"limit"`
+	Offset         *int    `query:"offset"`
+	Name           *string `query:"name"`
+	Category       *string `query:"productCategory"`
+	CreatedAtSort  *string `query:"createdAt"`
+}
+
+type ListMerchantItemResData struct {
+	MerchantItemId string `json:"itemId"`
+	Name           string `json:"name"`
+	Category       string `json:"productCategory"`
+	Price          int    `json:"price"`
+	ImageUrl       string `json:"imageUrl"`
+	CreatedAt      string `json:"createdAt"`
+}
+
+type MerchantItemListRes struct {
+	Data []ListMerchantItemResData `json:"data"`
+	Meta pagination.Page           `json:"meta"`
 }

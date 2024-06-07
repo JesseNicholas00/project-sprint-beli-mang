@@ -23,4 +23,8 @@ type MerchantRepository interface {
 		merchantIds []string,
 	) ([]Merchant, error)
 	ListItemsByIds(ctx context.Context, ids []string) ([]MerchantItem, error)
+	FindMerchantItemsByFilter(
+		ctx context.Context,
+		filters MerchantItemListFilter,
+	) (res []MerchantItem, total int64, err error)
 }

@@ -71,3 +71,16 @@ type MerchantWithItems struct {
 	CreatedAt time.Time `db:"merchant_created_at"`
 	Items     []MerchantItemDetail
 }
+
+type MerchantItemListFilter struct {
+	MerchantItemId *string
+	Limit          int
+	Offset         int
+	Name           *string
+	Category       *string
+	CreatedAtSort  *string
+}
+
+type Total struct {
+	Total int64 `db:"total"`
+}
