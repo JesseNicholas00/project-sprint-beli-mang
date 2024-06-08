@@ -5,6 +5,6 @@ CREATE TABLE merchants (
     name TEXT,
     category TEXT,
     image_url TEXT,
-    location GEOGRAPHY(Point),
+    location GEOMETRY(Point),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
