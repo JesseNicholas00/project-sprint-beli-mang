@@ -28,11 +28,15 @@ func (mc *merchantController) findByFilters(c echo.Context) error {
 	if len(fanum_tax) == 2 {
 		fanum, err_fanum := strconv.ParseFloat(fanum_tax[0], 64)
 		if err_fanum != nil {
-			return err_fanum
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": err_fanum,
+			})
 		}
 		tax, err_tax := strconv.ParseFloat(fanum_tax[1], 64)
 		if err_tax != nil {
-			return err_tax
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": err_tax,
+			})
 		}
 		req.Location = location.GyattLocation{
 			Latitude:  &fanum,
