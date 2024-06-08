@@ -42,16 +42,22 @@ func (repo *merchantRepoImpl) FindMerchantByFilter(
 			mewsql.WithCondition("m.category = ?", *filter.MerchantCategory),
 		)
 	}
-
 	options := []mewsql.SelectOption{
 		mewsql.WithLimit(filter.Limit),
 		mewsql.WithOffset(filter.Offset),
 		mewsql.WithWhere(conditions...),
-		mewsql.WithJoin("JOIN", "merchant_items mi", "m.merchant_id = mi.merchant_id"),
+		mewsql.WithJoin("LEFT JOIN", "merchant_items mi", "m.merchant_id = mi.merchant_id"),
 	}
 
 	if lol {
-		options = append(options, mewsql.WithOrderByNearestLocation("location", *filter.Location.Latitude, *filter.Location.Longitude))
+		options = append(
+			options,
+			mewsql.WithOrderByNearestLocation(
+				"location",
+				*filter.Location.Latitude,
+				*filter.Location.Longitude,
+			),
+		)
 	}
 
 	sql, args := mewsql.Select(
@@ -62,13 +68,13 @@ func (repo *merchantRepoImpl) FindMerchantByFilter(
             m.image_url as image_url, 
             ST_Y(m.location::geometry) as latitude, 
             ST_X(m.location::geometry) as longitude,
-            m.created_at created_at, 
-            mi.merchant_item_id as item_id, 
-            mi.name as item_name, 
-            mi.category as item_category, 
-            mi.price as item_price, 
-            mi.image_url as item_image_url, 
-            mi.created_at as item_created_at
+            m.created_at created_at,
+            COALESCE(mi.merchant_item_id, '') as item_id, 
+            COALESCE(mi.name, '') as item_name,
+            COALESCE(mi.category, '') as item_category,
+            COALESCE(mi.price, 0) as item_price, 
+            COALESCE(mi.image_url, '') as item_image_url,
+            COALESCE(mi.created_at, CURRENT_TIMESTAMP) as item_created_at
         `,
 		"merchants m",
 		options...,
@@ -93,9 +99,10 @@ func (repo *merchantRepoImpl) FindMerchantByFilter(
 			Merchant
 			MerchantItemDetail
 		}
-		err := rows.StructScan(&dbRes)
+		err = rows.StructScan(&dbRes)
 		if err != nil {
 			err = errorutil.AddCurrentContext(err)
+			return
 		}
 
 		var merchant MerchantWithItems
