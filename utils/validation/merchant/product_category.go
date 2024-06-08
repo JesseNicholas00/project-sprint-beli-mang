@@ -3,11 +3,11 @@ package merchant
 import "github.com/go-playground/validator/v10"
 
 var productTypes = map[string]*struct{}{
-	"Beverage": nil,
-	"Food":     nil,
-	"Snack":    nil,
-	"Price":    nil,
-	"ImageUrl": nil,
+	"Beverage":   nil,
+	"Food":       nil,
+	"Snack":      nil,
+	"Condiments": nil,
+	"Additions":  nil,
 }
 
 func validateProductCategoryImpl(s string) bool {
