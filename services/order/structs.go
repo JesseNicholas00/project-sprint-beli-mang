@@ -45,20 +45,20 @@ type OrderHistoryReq struct {
 }
 
 type OrderHistoryRes struct {
-	Result []OrderHistoryDTO
+	Entries []OrderHistoryEntry
 }
 
-type OrderHistoryDTO struct {
-	OrderId string             `json:"orderId"`
-	Orders  []OrderHistoryItem `json:"orders"`
+type OrderHistoryEntry struct {
+	OrderId string  `json:"orderId"`
+	Orders  []Order `json:"orders"`
 }
 
-type OrderHistoryItem struct {
-	Merchant OrderHistoryMerchantDetail `json:"merchant"`
-	Items    []OrderHistoryItemDetail   `json:"items"`
+type Order struct {
+	Merchant OrderMerchant `json:"merchant"`
+	Items    []OrderItem   `json:"items"`
 }
 
-type OrderHistoryMerchantDetail struct {
+type OrderMerchant struct {
 	MerchantId       string            `json:"merchantId"`
 	Name             string            `json:"name"`
 	MerchantCategory string            `json:"merchantCategory"`
@@ -67,11 +67,11 @@ type OrderHistoryMerchantDetail struct {
 	CreatedAt        string            `json:"createdAt"`
 }
 
-type OrderHistoryItemDetail struct {
+type OrderItem struct {
 	ItemId          string `json:"itemId"`
 	Name            string `json:"name"`
 	ProductCategory string `json:"productCategory"`
-	Price           int    `json:"price"`
+	Price           int64  `json:"price"`
 	Quantity        int    `json:"quantity"`
 	ImageUrl        string `json:"imageUrl"`
 	CreatedAt       string `json:"createdAt"`

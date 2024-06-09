@@ -38,7 +38,7 @@ type OrderSummaryView struct {
 	MerchantItemID string    `db:"merchant_item_id"`
 	ItemName       string    `db:"item_name"`
 	ItemCategory   string    `db:"item_category"`
-	ItemPrice      int       `db:"item_price"`
+	ItemPrice      int64     `db:"item_price"`
 	ItemImageURL   string    `db:"item_image_url"`
 	ItemCreatedAt  time.Time `db:"item_created_at"`
 }
