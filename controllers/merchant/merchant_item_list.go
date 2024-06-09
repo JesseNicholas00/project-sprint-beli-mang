@@ -16,10 +16,10 @@ func (mc *merchantController) findMerchantItemList(c echo.Context) error {
 		return err
 	}
 
-	if req.CreatedAtSort != nil {
-		if *req.CreatedAtSort != "asc" && *req.CreatedAtSort != "desc" {
-			req.CreatedAtSort = nil
-		}
+	// desc sort should be default
+	if req.CreatedAtSort == nil ||
+		(*req.CreatedAtSort != "asc" && *req.CreatedAtSort != "desc") {
+		req.CreatedAtSort = helper.ToPointer("desc")
 	}
 	if req.Limit == nil {
 		req.Limit = helper.ToPointer(5)

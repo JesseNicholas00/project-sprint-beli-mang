@@ -33,5 +33,9 @@ func (ctrl *orderController) orderHistory(c echo.Context) error {
 		return errorutil.AddCurrentContext(err)
 	}
 
-	return c.JSON(http.StatusOK, res.Result)
+	if res.Entries == nil {
+		res.Entries = make([]order.OrderHistoryEntry, 0)
+	}
+
+	return c.JSON(http.StatusOK, res.Entries)
 }
