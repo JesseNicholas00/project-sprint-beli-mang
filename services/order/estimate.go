@@ -19,7 +19,7 @@ const (
 	minPerHour = 60
 	kmToMin    = 1 / speedKmh * minPerHour
 
-	maxAcceptableOrderDistanceKm = 3.0
+	maxAcceptableOrderDistanceKmSq = 3.0
 )
 
 func (svc *orderServiceImpl) EstimateOrder(
@@ -122,7 +122,7 @@ func (svc *orderServiceImpl) EstimateOrder(
 			radius = max(radius, dist)
 		}
 
-		if radius*radius*math.Pi >= maxAcceptableOrderDistanceKm {
+		if radius*radius*math.Pi >= maxAcceptableOrderDistanceKmSq {
 			return ErrTooFar
 		}
 
