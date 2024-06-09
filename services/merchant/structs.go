@@ -104,7 +104,7 @@ type ListMerchantItemResData struct {
 	MerchantItemId string `json:"itemId"`
 	Name           string `json:"name"`
 	Category       string `json:"productCategory"`
-	Price          int    `json:"price"`
+	Price          int64  `json:"price"`
 	ImageUrl       string `json:"imageUrl"`
 	CreatedAt      string `json:"createdAt"`
 }

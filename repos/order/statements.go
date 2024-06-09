@@ -9,6 +9,7 @@ type statements struct {
 	createEstimate                *sqlx.NamedStmt
 	findEstimateById              *sqlx.Stmt
 	findEstimateItemsByEstimateId *sqlx.Stmt
+	createOrder                   *sqlx.NamedStmt
 }
 
 func prepareStatements() statements {
@@ -42,6 +43,16 @@ func prepareStatements() statements {
 					estimates.estimate_id = estimate_items.estimate_id
 			WHERE
 				estimates.estimate_id = $1
+		`),
+
+		createOrder: statementutil.MustPrepareNamed(`
+			INSERT INTO orders(
+			    order_id,
+				estimate_id
+			) VALUES (
+				:order_id,
+				:estimate_id
+			)
 		`),
 	}
 }

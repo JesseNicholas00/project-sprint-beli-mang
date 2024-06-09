@@ -26,6 +26,15 @@ type EstimateOrderRes struct {
 	Id                       string  `json:"calculatedEstimateId"`
 }
 
+type CreateOrderReq struct {
+	UserId          string
+	EstimateOrderId string `json:"calculatedEstimateId" validate:"required"`
+}
+
+type CreateOrderRes struct {
+	OrderId string `json:"orderId"`
+}
+
 type OrderHistoryReq struct {
 	MerchantId       *string `query:"merchantId"`
 	Limit            *int    `query:"limit"`
