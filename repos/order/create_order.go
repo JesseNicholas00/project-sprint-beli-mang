@@ -4,12 +4,14 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/BeliMang/utils/errorutil"
-	"github.com/JesseNicholas00/BeliMang/utils/statementutil"
 	"github.com/JesseNicholas00/BeliMang/utils/transaction"
 )
 
 // CreateOrder implements OrderRepository.
-func (repo *orderRepositoryImpl) CreateOrder(ctx context.Context, order Order) error {
+func (repo *orderRepositoryImpl) CreateOrder(
+	ctx context.Context,
+	order Order,
+) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -21,15 +23,7 @@ func (repo *orderRepositoryImpl) CreateOrder(ctx context.Context, order Order) e
 
 	return transaction.RunWithAutoCommit(&sess, func() error {
 		_, err := sess.
-			NamedStmt(ctx, statementutil.MustPrepareNamed(`
-			INSERT INTO orders(
-			    order_id,
-				estimate_id
-			) VALUES (
-				:order_id,
-				:estimate_id
-			)
-		`)).
+			NamedStmt(ctx, repo.statements.createOrder).
 			Exec(order)
 		if err != nil {
 			return errorutil.AddCurrentContext(err)

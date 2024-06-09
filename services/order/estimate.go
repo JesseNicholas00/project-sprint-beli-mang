@@ -19,7 +19,9 @@ const (
 	minPerHour = 60
 	kmToMin    = 1 / speedKmh * minPerHour
 
-	maxAcceptableOrderDistanceKmSq = 3.0
+	// lol plchdr mewing gyatt turbo galvanized steel
+	// sqrt(2)**2 * pi = 6.28...
+	maxAcceptableOrderDistanceKmSq = 6.5
 )
 
 func (svc *orderServiceImpl) EstimateOrder(

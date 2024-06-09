@@ -24,8 +24,16 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 
 	err = transaction.RunWithAutoCommit(&sess, func() error {
 		var merchants []merchant.Merchant
-		if req.MerchantCategory != nil || req.MerchantId != nil || req.Name != nil {
-			merchants, err := getMerchantsForFilters(svc, ctx, req.MerchantCategory, req.MerchantId, req.Name, []string{})
+		if req.MerchantCategory != nil || req.MerchantId != nil ||
+			req.Name != nil {
+			merchants, err := getMerchantsForFilters(
+				svc,
+				ctx,
+				req.MerchantCategory,
+				req.MerchantId,
+				req.Name,
+				[]string{},
+			)
 			if err != nil {
 				return err
 			}
@@ -39,18 +47,22 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 		nameFilter := req.Name
 		if len(merchants) != 0 {
 			merchantIds = getMerchantIds(merchants)
-			if (req.MerchantCategory != nil || req.MerchantId != nil) && req.Name != nil {
+			if (req.MerchantCategory != nil || req.MerchantId != nil) &&
+				req.Name != nil {
 				nameFilter = nil
 			}
 		}
 
-		summaryRes, err := svc.repo.ListOrderSummary(ctx, order.OrderSummaryListFilter{
-			MerchantIds: merchantIds,
-			Limit:       *req.Limit,
-			Offset:      *req.Offset,
-			ItemName:    nameFilter,
-			UserId:      req.UserId,
-		})
+		summaryRes, err := svc.repo.ListOrderSummary(
+			ctx,
+			order.OrderSummaryListFilter{
+				MerchantIds: merchantIds,
+				Limit:       *req.Limit,
+				Offset:      *req.Offset,
+				ItemName:    nameFilter,
+				UserId:      req.UserId,
+			},
+		)
 		if err != nil {
 			return err
 		}
@@ -58,12 +70,19 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 		if len(summaryRes) > 0 {
 			if nameFilter != nil {
 				merchantIds = getMerchantIdsFromSummary(summaryRes)
-				merchants, err = getMerchantsForFilters(svc, ctx, nil, nil, nil, merchantIds)
+				merchants, err = getMerchantsForFilters(
+					svc,
+					ctx,
+					nil,
+					nil,
+					nil,
+					merchantIds,
+				)
 				if err != nil {
 					return err
 				}
 			}
-			var merchantIdMap map[string]OrderHistoryMerchantDetail
+			merchantIdMap := make(map[string]OrderHistoryMerchantDetail)
 			for _, merchant := range merchants {
 				merchantIdMap[merchant.Id] = OrderHistoryMerchantDetail{
 					MerchantId:       merchant.Id,
@@ -78,8 +97,8 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 				}
 			}
 
-			var mappedOrderIdMap map[string]*int
-			var mappedOrderIdMerchantIdMap map[string]map[string]*int
+			mappedOrderIdMap := make(map[string]*int)
+			mappedOrderIdMerchantIdMap := make(map[string]map[string]*int)
 			for _, summary := range summaryRes {
 				if mappedOrderIdMap[summary.OrderID] == nil {
 					currentSize := len(res.Result)
@@ -91,7 +110,9 @@ func (svc *orderServiceImpl) OrderHistory(ctx context.Context,
 				currOrderLoc := mappedOrderIdMap[summary.OrderID]
 
 				if mappedOrderIdMerchantIdMap[summary.OrderID] == nil {
-					mappedOrderIdMerchantIdMap[summary.OrderID] = make(map[string]*int)
+					mappedOrderIdMerchantIdMap[summary.OrderID] = make(
+						map[string]*int,
+					)
 				}
 				if mappedOrderIdMerchantIdMap[summary.OrderID][summary.MerchantID] == nil {
 					currentSize := len(res.Result[*currOrderLoc].Orders)
@@ -155,7 +176,9 @@ func getMerchantIds(merchants []merchant.Merchant) []string {
 	return merchantIds
 }
 
-func getMerchantIdsFromSummary(orderSummaries []order.OrderSummaryView) []string {
+func getMerchantIdsFromSummary(
+	orderSummaries []order.OrderSummaryView,
+) []string {
 	merchantIds := []string{}
 
 	for _, orderSummary := range orderSummaries {

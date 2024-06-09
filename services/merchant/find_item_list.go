@@ -37,9 +37,10 @@ func (svc *merchantServiceImpl) FindMerchantItemList(ctx context.Context,
 		res.Data = append(res.Data, ListMerchantItemResData{
 			MerchantItemId: merchantItem.Id,
 			Name:           merchantItem.Name,
+			Price:          merchantItem.Price,
 			Category:       merchantItem.Category,
 			ImageUrl:       merchantItem.ImageUrl,
-			CreatedAt:      merchantItem.CreatedAt.Format(time.RFC3339),
+			CreatedAt:      merchantItem.CreatedAt.Format(time.RFC3339Nano),
 		})
 	}
 	res.Meta = pagination.Page{

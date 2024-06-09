@@ -8,4 +8,6 @@ var (
 	)
 	ErrMerchantNotFound = errors.New("orderService: no such merchant found")
 	ErrItemNotFound     = errors.New("orderService: no such item found")
+
+	ErrEstimateNotFound = errors.New("orderService: no such estimate found")
 )

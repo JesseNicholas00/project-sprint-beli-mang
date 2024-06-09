@@ -101,8 +101,8 @@ func WithOrderByNearestLocation(
 		statement: fmt.Sprintf(
 			"ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326)",
 			expression,
-			lat,
 			long,
+			lat,
 		),
 	}
 }
