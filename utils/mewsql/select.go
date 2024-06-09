@@ -91,11 +91,15 @@ func WithOrderBy(expression string, ascDesc string) SelectOption {
 	}
 }
 
-func WithOrderByNearestLocation(expression string, lat float64, long float64) SelectOption {
+func WithOrderByNearestLocation(
+	expression string,
+	lat float64,
+	long float64,
+) SelectOption {
 	return &genericSelectOptionImpl{
 		kind: selectOptionOrderBy,
 		statement: fmt.Sprintf(
-			"ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 0)",
+			"ORDER BY %s <-> ST_SetSRID(ST_MakePoint(%f, %f), 4326)",
 			expression,
 			lat,
 			long,
@@ -117,7 +121,11 @@ func WithOffset(count int) SelectOption {
 	}
 }
 
-func WithJoin(joinType string, tableName string, condition string) SelectOption {
+func WithJoin(
+	joinType string,
+	tableName string,
+	condition string,
+) SelectOption {
 	if joinType != InnerJoin && joinType != LeftJoin && joinType != RightJoin {
 		return nil
 	}

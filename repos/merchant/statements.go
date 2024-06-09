@@ -27,7 +27,7 @@ func prepareStatements() statements {
 				:name,
 				:category,
 				:image_url,
-				CAST(Point(:latitude, :longitude) AS geometry)
+				CAST(Point(:longitude, :latitude) AS geometry)
 			)
 		`),
 		createItem: statementutil.MustPrepareNamed(`

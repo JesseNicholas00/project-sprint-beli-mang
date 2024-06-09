@@ -45,6 +45,7 @@ func TestMerchantItemList(t *testing.T) {
 
 		Convey("Should forward the request to the service layer", func() {
 			expectedReq := merchant.MerchantItemListReq{
+				MerchantId:     &merchantId,
 				MerchantItemId: &merchantItemId,
 				Name:           &name,
 				Category:       &productCategory,

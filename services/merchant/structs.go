@@ -91,12 +91,13 @@ type FindMerchantRes struct {
 }
 
 type MerchantItemListReq struct {
-	MerchantItemId *string `query:"itemId"`
-	Limit          *int    `query:"limit"`
-	Offset         *int    `query:"offset"`
-	Name           *string `query:"name"`
-	Category       *string `query:"productCategory"`
-	CreatedAtSort  *string `query:"createdAt"`
+	MerchantId     *string `param:"merchantId"`
+	MerchantItemId *string `                   query:"itemId"`
+	Limit          *int    `                   query:"limit"`
+	Offset         *int    `                   query:"offset"`
+	Name           *string `                   query:"name"`
+	Category       *string `                   query:"productCategory"`
+	CreatedAtSort  *string `                   query:"createdAt"`
 }
 
 type ListMerchantItemResData struct {

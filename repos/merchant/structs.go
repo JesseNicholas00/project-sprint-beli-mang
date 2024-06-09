@@ -73,6 +73,7 @@ type MerchantWithItems struct {
 }
 
 type MerchantItemListFilter struct {
+	MerchantId     *string
 	MerchantItemId *string
 	Limit          int
 	Offset         int

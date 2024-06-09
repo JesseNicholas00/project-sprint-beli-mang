@@ -20,6 +20,7 @@ func (svc *merchantServiceImpl) FindMerchantItemList(ctx context.Context,
 	repoRes, totalRes, err := svc.repo.FindMerchantItemsByFilter(
 		ctx,
 		merchant.MerchantItemListFilter{
+			MerchantId:     req.MerchantId,
 			MerchantItemId: req.MerchantItemId,
 			Limit:          *req.Limit,
 			Offset:         *req.Offset,

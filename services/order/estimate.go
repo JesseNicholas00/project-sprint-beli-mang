@@ -2,6 +2,8 @@ package order
 
 import (
 	"context"
+	"math"
+
 	"github.com/JesseNicholas00/BeliMang/repos/merchant"
 	"github.com/JesseNicholas00/BeliMang/repos/order"
 	"github.com/JesseNicholas00/BeliMang/types/location"
@@ -115,6 +117,15 @@ func (svc *orderServiceImpl) EstimateOrder(
 			}
 		}
 
+		radius := float64(0)
+		for _, dist := range distMatrix[endIdx] {
+			radius = max(radius, dist)
+		}
+
+		if radius*radius*math.Pi >= maxAcceptableOrderDistanceKm {
+			return ErrTooFar
+		}
+
 		totalDistance, err := graphs.GetTspDistance(
 			ctx,
 			startIdx,
@@ -123,9 +134,6 @@ func (svc *orderServiceImpl) EstimateOrder(
 		)
 		if err != nil {
 			return errorutil.AddCurrentContext(err)
-		}
-		if totalDistance > maxAcceptableOrderDistanceKm {
-			return ErrTooFar
 		}
 
 		totalPrice := int64(0)

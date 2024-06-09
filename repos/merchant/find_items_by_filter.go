@@ -24,11 +24,20 @@ func (repo *merchantRepoImpl) FindMerchantItemsByFilter(ctx context.Context,
 
 	err = transaction.RunWithAutoCommit(&sess, func() error {
 		var conditions []mewsql.Condition
+		if filter.MerchantId != nil {
+			conditions = append(
+				conditions,
+				mewsql.WithCondition("merchant_id = ?", *filter.MerchantId),
+			)
+		}
 
 		if filter.MerchantItemId != nil {
 			conditions = append(
 				conditions,
-				mewsql.WithCondition("merchant_item_id = ?", *filter.MerchantItemId),
+				mewsql.WithCondition(
+					"merchant_item_id = ?",
+					*filter.MerchantItemId,
+				),
 			)
 		}
 		if filter.Name != nil {
